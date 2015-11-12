@@ -3,7 +3,7 @@ from repo_scraper import checker
 
 
 #Missing tests:
-#more than one password in a strig
+#more than one password in a string
 #a password spanned across multiple lines
 
 class HardcodedPasswordString(TestCase):
@@ -53,6 +53,12 @@ class HardcodedPasswordString(TestCase):
         has_password, matches = checker.has_password(str_to_check)
         self.assertTrue(has_password)
         self.assertEqual(matches, [str_to_check])
+
+    def test_detects_multiple_passwords(self):
+        str_to_check = 'PASSWORD_MYSQL=\'iYiLKi7879\'  \n  \n  password ="123456"\n var=5'
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, ['PASSWORD_MYSQL=\'iYiLKi7879\'', 'password ="123456"'])
 
     def test_ignores_password_from_another_variable(self):
         str_to_check = 'password=variable'
