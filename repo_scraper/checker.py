@@ -1,6 +1,5 @@
 import re
 
-
 #This file contains code that checks a file for
 #potential problems:
 #passwords, ips, data files (check file size?)
