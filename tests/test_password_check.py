@@ -2,6 +2,7 @@ from unittest import TestCase
 from repo_scraper import checker
 
 #what if it's not quoted? what if is spanned across more than one line
+#is this reasonable to test? p=some-password
 
 class HardcodedPasswordString(TestCase):
     def test_detects_easy_password(self):
@@ -74,7 +75,7 @@ class HardcodedPasswordString(TestCase):
         self.assertFalse(has_password)
         self.assertEqual(matches, None)
 
-class HardcodedSQLAlchemyEngines(TestCase):
+class HardcodedURLs(TestCase):
     def test_detects_sqlalchemy_engine(self):
         str_to_check = 'db-schema://user:strong-pwd@localhost:5432/mydb'
         has_password, matches = checker.has_password(str_to_check)
@@ -98,3 +99,63 @@ class HardcodedSQLAlchemyEngines(TestCase):
         has_password, matches = checker.has_password(str_to_check)
         self.assertTrue(has_password)
         self.assertEqual(matches, [str_to_check])
+
+class HardcodedPasswordsInTextFiles(TestCase):
+    def test_detects_hardcoded_value_json(self):
+        str_to_check = '''{
+                            "password":"super-secret-password"     \n\n\t
+                        }'''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, ['"password":"super-secret-password"'])
+
+    def test_detects_hardcoded_value_json_single_quotes(self):
+        str_to_check = '''{
+                            \'password\': \'super-secret-password\'     \n\n\t
+                        }'''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, ['\'password\': \'super-secret-password\''])
+
+    def test_detects_hardcoded_value_json_multiple_keys(self):
+        str_to_check = '''{
+                            "pass": "dont-hack-me-please",
+                            "key": "1234"
+                        }'''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, ['"pass": "dont-hack-me-please"'])
+
+    def test_detects_hardcoded_value_json_multiple_passwords(self):
+        str_to_check = '''{
+                            "pass": "dont-hack-me-please",
+                            "key": "1234",
+                            \'pwd\'  :    \'qwerty\',
+                        }'''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, ['"pass": "dont-hack-me-please"', '\'pwd\'  :    \'qwerty\''])
+
+    def test_detects_hardcoded_value_json_blanks(self):
+        str_to_check = '''{
+                            "   pass"  :    "dont-hack-me-please"     \n\n\t
+                        }'''
+        has_password, matches = checker.has_password(str_to_check)
+        #self.assertTrue(has_password)
+        #self.assertEqual(matches, ['"   pass"  :    "dont-hack-me-please"'])
+    def test_ignores_json_without_passwords(self):
+        str_to_check = '''{
+                            "some_key": "this is not a password",
+                            "another_key": 100-12301-123,
+                        }'''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertFalse(has_password)
+        self.assertEqual(matches, None)
+    def test_detects_url_in_json_file(self):
+        str_to_check = '''{
+                            "engine": "db-schema://user:strong-pwd@localhost:5432/mydb",
+                            "key": "1234",
+                        }'''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, ['"db-schema://user:strong-pwd@localhost:5432/mydb"'])
