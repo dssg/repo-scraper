@@ -10,5 +10,4 @@ def scrap_folder(path):
     #Apply relevant checks for each file
     results = [FileChecker(f).check() for f in files]
     #Output results
-    for filename, result in zip(files, results):
-        print '%s result is %s\n' % (filename, result)
+    return zip(files, results)

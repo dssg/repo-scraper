@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+from repo_scraper import scraper
+import sys
+
+folder_path = sys.argv[1]
+results = scraper.scrap_folder(folder_path)
+
+for filename, result in results:
+        print '%s result is %s\n' % (filename, result)
