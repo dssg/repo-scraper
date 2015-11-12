@@ -8,8 +8,11 @@ from repo_scraper import checker
 
 class TestPasswordCheck(TestCase):
     def test_detects_easy_password(self):
-        has_password, matches = checker.has_password('password="123456"')
-        self.assertTrue(has_password)
+        str_to_check = 'password="123456"'
+        has_password, matches = checker.has_password(str_to_check)
+        #self.assertTrue(has_password)
+        #self.assertEqual(len(matches), 1)
+        self.assertEqual(matches, [str_to_check])
 
     def test_detects_easy_password_single_quotes(self):
         has_password, matches = checker.has_password('password=\'123456\'')

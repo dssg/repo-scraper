@@ -17,8 +17,8 @@ def has_password(s):
     #Case 1: hardcoded passwords assigned to variables
     #match variable names such as password, PASSWORD, pwd, pass,
     #SOMETHING_PASSWORD assigned to strings (match = and <-)
-    pwd = re.compile('(p|P)\S*(w|W)\S*(d|D)\s*(=|<-)\s*(\'|\").*(\'|\")') #Matches p_w_d='something' and similar
-    pass_ = re.compile('(pass|PASS)\S*\s*(=|<-)\s*(\'|\").*(\'|\")') #Matches pass='something' and similar
+    pwd = re.compile('((?:p|P)\S*(?:w|W)\S*(?:d|D)\s*(?:=|<-)\s*(?:\'|\").*(?:\'|\"))') #Matches p_w_d='something' and similar
+    pass_ = re.compile('((?:pass|PASS)\S*\s*(?:=|<-)\s*(?:\'|\").*(?:\'|\"))') #Matches pass='something' and similar
 
     #Case 2: SQLAlchemy engines
 
@@ -33,7 +33,7 @@ def has_password(s):
     regex_list = [pwd, pass_]
     matches = regex_matcher(regex_list, s)
     has_password = len(matches) > 0
-    matches = None if has_password is False else matches
+    matches = None if has_password is False else list(set(matches))
     return has_password, matches
 
 
