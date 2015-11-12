@@ -17,20 +17,23 @@ def has_password(s):
     #Case 1: hardcoded passwords assigned to variables
     #match variable names such as password, PASSWORD, pwd, pass,
     #SOMETHING_PASSWORD assigned to strings (match = and <-)
-    pwd = re.compile('((?:p|P)\S*(?:w|W)\S*(?:d|D)\s*(?:=|<-)\s*(?:\'|\").*(?:\'|\"))') #Matches p_w_d='something' and similar
-    pass_ = re.compile('((?:pass|PASS)\S*\s*(?:=|<-)\s*(?:\'|\").*(?:\'|\"))') #Matches pass='something' and similar
+    pwd = re.compile('(\S*(?:p|P)\S*(?:w|W)\S*(?:d|D)\s*(?:=|<-)\s*(?:\'|\").*(?:\'|\"))') #Matches p_w_d='something' and similar
+    pass_ = re.compile('(\S*(?:pass|PASS)\S*\s*(?:=|<-)\s*(?:\'|\").*(?:\'|\"))') #Matches pass='something' and similar
 
     #Case 2: SQLAlchemy engines
-
+    #http://docs.sqlalchemy.org/en/rel_1_0/core/engines.html
+    engine = re.compile('\S+://\S+:\S+@\S+:\S+/\S+')
     #Case 3: Passwords in bash files (bash, psql, etc)
 
-    #Case 4: Passwords stores in json, csv files
+    #Case 4: Passwords stored in json, csv files
 
     #Case 5: Pgpass
 
+    #what about case 1 without quotes?
+
     #passwords assigned to variables whose names are nor similar to pwd
     #but the string seems a password
-    regex_list = [pwd, pass_]
+    regex_list = [pwd, pass_, engine]
     matches = regex_matcher(regex_list, s)
     has_password = len(matches) > 0
     matches = None if has_password is False else list(set(matches))
