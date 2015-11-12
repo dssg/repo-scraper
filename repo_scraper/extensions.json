@@ -1,0 +1,5 @@
+{
+    "warning": ["xlsx", "xls", "pdf", "zip", "ppt", "pptx"],
+    "ignore_folders": [".git/"],
+
+}

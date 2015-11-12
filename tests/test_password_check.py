@@ -100,7 +100,7 @@ class HardcodedURLs(TestCase):
         self.assertTrue(has_password)
         self.assertEqual(matches, [str_to_check])
 
-class HardcodedPasswordsInTextFiles(TestCase):
+class HardcodedPasswordsInJSON(TestCase):
     def test_detects_hardcoded_value_json(self):
         str_to_check = '''{
                             "password":"super-secret-password"     \n\n\t
@@ -159,3 +159,29 @@ class HardcodedPasswordsInTextFiles(TestCase):
         has_password, matches = checker.has_password(str_to_check)
         self.assertTrue(has_password)
         self.assertEqual(matches, ['"db-schema://user:strong-pwd@localhost:5432/mydb"'])
+
+class HardcodedPasswordsInYAML(TestCase):
+    def test_detects_hardcoded_value_json(self):
+        str_to_check = '''
+                            database: 
+                              drivername: "dbdriver"
+                              host:       "dbhost"
+                              port:       "port"
+                              username:   "username"
+                              password:   "password"
+                              database:   "database"
+                        '''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, ['password:   "password"'])
+
+class HardcodedPasswordsInCSV(TestCase):
+    def test_detects_hardcoded_value_csv(self):
+        #str_to_check = '''password, qwerty'''
+        #has_password, matches = checker.has_password(str_to_check)
+        #self.assertTrue(has_password)
+        #self.assertEqual(matches, ['password, qwerty'])
+        pass
+
+class HardcodedPasswordsInGenericPlainText(TestCase):
+    pass

@@ -24,6 +24,7 @@ def has_password(s):
     #Case 3: Passwords in bash files (bash, psql, etc) bash parameters
 
     #Case 5: Pgpass
+    #http://www.postgresql.org/docs/9.3/static/libpq-pgpass.html
 
     #what about case 1 without quotes?
 
@@ -35,6 +36,7 @@ def has_password(s):
     matches = None if has_password is False else list(set(matches))
     return has_password, matches
 
+#maybe also check aws related urls
 
 #Checks if a string has ips
 # p = re.compile('(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])')

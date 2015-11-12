@@ -14,4 +14,4 @@ class FileChecker:
         #print self.content
         has_password, matches = checker.has_password(self.content)
         #return '%s is %s and has %s' % (self.path, self.mimetype, result)
-        return has_password, matches
+        return self.path, has_password, matches
