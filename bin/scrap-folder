@@ -2,8 +2,9 @@
 from repo_scraper import scraper
 import sys
 
-folder_path = sys.argv[1]
+folder_path = sys.argv[1] if len(sys.argv) > 1 else '.'
 results = scraper.scrap_folder(folder_path)
 
 for filename, result in results:
-        print '%s result is %s\n' % (filename, result)
+        if result[0]:
+            print '%s result is %s\n' % (filename, result)
