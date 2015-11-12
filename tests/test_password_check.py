@@ -1,10 +1,7 @@
 from unittest import TestCase
 from repo_scraper import checker
 
-
-#Missing tests:
-#more than one password in a string
-#a password spanned across multiple lines
+#what if it's not quoted? what if is spanned across more than one line
 
 class HardcodedPasswordString(TestCase):
     def test_detects_easy_password(self):
@@ -80,6 +77,24 @@ class HardcodedPasswordString(TestCase):
 class HardcodedSQLAlchemyEngines(TestCase):
     def test_detects_sqlalchemy_engine(self):
         str_to_check = 'db-schema://user:strong-pwd@localhost:5432/mydb'
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, [str_to_check])
+
+    def test_detects_sqlalchemy_engine_different_settings(self):
+        str_to_check = 'another-schema://user2:1234@localhost:0000/awesome-db'
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, [str_to_check])
+
+    def test_detects_sqlalchemy_quoted(self):
+        str_to_check = '\'db-schema://user:strong-pwd@localhost:5432/mydb\''
+        has_password, matches = checker.has_password(str_to_check)
+        self.assertTrue(has_password)
+        self.assertEqual(matches, [str_to_check])
+
+    def test_detects_sqlalchemy_double_quoted(self):
+        str_to_check = '"db-schema://user:strong-pwd@localhost:5432/mydb"'
         has_password, matches = checker.has_password(str_to_check)
         self.assertTrue(has_password)
         self.assertEqual(matches, [str_to_check])
