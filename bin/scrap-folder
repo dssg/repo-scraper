@@ -9,6 +9,7 @@ folder_path = sys.argv[1] if len(sys.argv) > 1 else '.'
 files = fs.list_files_in(folder_path)
 #Ignore all inside .git/
 files = filter(lambda x: '.git/' not in x,  files)
+files = filter(lambda x: '/ETL/data_transformation/nc_email_htmls/' not in x,  files)
 #Apply gitignore rules? don't rely too much on this since it could have been changed
 #How to manage pyc files?
 
@@ -17,5 +18,5 @@ results = (FileChecker(f).check() for f in files)
 
 #Output results
 for filename, status, matches in results:
-    if status:
-        print '%s status is %s with matches %s\n' % (filename, status, matches)
+    print '%s status is %s with matches %s\n' % (filename, status, matches)
+        
