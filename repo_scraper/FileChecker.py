@@ -6,7 +6,7 @@ import re
 
 ALERT = 'ALERT'
 WARNING = 'WARNING'
-NOTHING 'NOtHING'
+NOTHING = 'NOTHING'
 
 BIG_FILE = 'BIG_FILE'
 NOT_PLAIN_TEXT = 'NOT_PLAIN_TEXT'
@@ -20,7 +20,7 @@ class Result:
         self.file_path = file_path
         self.reason = reason
         self.matches = matches
-        self.result_type = dic[result_type]
+        self.result_type = dic[reason]
 
 class FileChecker:
     def __init__(self, path):

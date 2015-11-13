@@ -13,6 +13,6 @@ files = fs.list_files_in(folder_path, ignore_path)
         
 for f in files:
     r = FileChecker(f).check()
-    if r.result_type is 'MATCH':
+    if r.result_type is 'ALERT':
         print f
         print '\t\t%s\n' % r.matches
