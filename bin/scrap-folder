@@ -6,22 +6,10 @@ import sys
 folder_path = sys.argv[1] if len(sys.argv) > 1 else '.'
 ignore_path = sys.argv[2] if len(sys.argv) > 2 else None
 
-#List all files in directory
+#List all files in directory, apply ignore file if necessary
 files = fs.list_files_in(folder_path, ignore_path)
-#Check if theres a .git folder...
-
-#Apply gitignore rules? don't rely too much on this since it could have been changed
-#How to manage pyc files?
-
-#Check for big folders (see for example the high school repo)
-
-#File checker generator
-results = (FileChecker(f).check() for f in files)
-
-#Output results
-# for filename, status, matches in results:
-#     print '%s status is %s with matches %s\n' % (filename, status, matches)
         
 for f in files:
     print 'Current %s' % f
-    print 'R: %s, %s, %s\n' % FileChecker(f).check()
+    r = FileChecker(f).check()
+    print 'Type: %s   Matches: %s\n' % (r.result_type, r.matches)

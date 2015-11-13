@@ -9,11 +9,18 @@ ALERT = 'Alert'
 #WARNING
 WARNING = 'Warning'
 
-#Explanation
-#BIG_FILE
-BIG_FILE = 'File is too big to scan'
-#FILETYPE
 
+BIG_FILE = 'BIG_FILE'
+NOT_PLAIN_TEXT = 'NOT_PLAIN_TEXT'
+MATCH = 'MATCH'
+NOT_MATCH = 'NOT_MATCH'
+
+class Result:
+    def __init__(self, file_path, result_type, matches=None):
+        self.file_path = file_path
+        self.result_type = result_type
+        self.matches = matches
+        #Based on the result_type assign an alert type
 
 class FileChecker:
     def __init__(self, path):
@@ -25,14 +32,14 @@ class FileChecker:
         #since pattern matching is going to be really slow
         f_size = os.stat(self.path).st_size
         if f_size > 1048576L:
-            return self.path, 'Too big', None
+            return Result(self.path, BIG_FILE)
   
         #Then, filter all non-plain text files
         #also send a warning for those, if they are non-plain text
         #and less than 1MB they are probably xlsx, pdfs, pngs, zips, ppt, pptx
         if not self.mimetype.startswith('text/'):
             #Add checks for certain files? (word, excel, powerpoint...)
-            return self.path, 'Not a plain text file', None
+            return Result(self.path, NOT_PLAIN_TEXT)
 
         #Now, filter all files which mimetype could not be determined
 
@@ -50,4 +57,7 @@ class FileChecker:
         #Maybe emit warnings for data files (even if they are less than 1MB)
         #has_password, matches = None, None
         has_password, matches = checker.has_password(content)
-        return self.path, has_password, matches
+        if has_password:
+            return Result(self.path, MATCH, matches)
+        else:
+            return Result(self.path, NOT_MATCH)
