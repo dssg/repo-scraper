@@ -8,8 +8,11 @@ ignore_path = sys.argv[2] if len(sys.argv) > 2 else None
 
 #List all files in directory, apply ignore file if necessary
 files = fs.list_files_in(folder_path, ignore_path)
+
+#Add option to control output
         
 for f in files:
-    print 'Current %s' % f
     r = FileChecker(f).check()
-    print 'Type: %s   Matches: %s\n' % (r.result_type, r.matches)
+    if r.result_type is 'MATCH':
+        print f
+        print '\t\t%s\n' % r.matches
