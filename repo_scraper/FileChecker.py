@@ -3,24 +3,24 @@ from repo_scraper import checker
 import os
 import re
 
-#Types of results
-#ALERT
-ALERT = 'Alert'
-#WARNING
-WARNING = 'Warning'
 
+ALERT = 'ALERT'
+WARNING = 'WARNING'
+NOTHING 'NOtHING'
 
 BIG_FILE = 'BIG_FILE'
 NOT_PLAIN_TEXT = 'NOT_PLAIN_TEXT'
 MATCH = 'MATCH'
 NOT_MATCH = 'NOT_MATCH'
 
+dic = {BIG_FILE: WARNING, NOT_PLAIN_TEXT: WARNING, MATCH: ALERT, NOT_MATCH: NOTHING}
+
 class Result:
-    def __init__(self, file_path, result_type, matches=None):
+    def __init__(self, file_path, reason, matches=None):
         self.file_path = file_path
-        self.result_type = result_type
+        self.reason = reason
         self.matches = matches
-        #Based on the result_type assign an alert type
+        self.result_type = dic[result_type]
 
 class FileChecker:
     def __init__(self, path):
