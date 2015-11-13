@@ -40,5 +40,7 @@ class FileChecker:
         with open(self.path, 'r') as f:
             content = f.read()
 
+        #Maybe emit warnings for data files (even if they are less than 1MB)
+        #has_password, matches = None, None
         has_password, matches = checker.has_password(content)
         return self.path, has_password, matches

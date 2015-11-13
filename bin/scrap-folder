@@ -4,14 +4,16 @@ from repo_scraper.FileChecker import FileChecker
 import sys
 
 folder_path = sys.argv[1] if len(sys.argv) > 1 else '.'
+ignore_path = sys.argv[2] if len(sys.argv) > 2 else None
 
 #List all files in directory
-files = fs.list_files_in(folder_path)
-#Ignore all inside .git/
-files = filter(lambda x: '.git/' not in x,  files)
-files = filter(lambda x: '/ETL/data_transformation/nc_email_htmls/' not in x,  files)
+files = fs.list_files_in(folder_path, ignore_path)
+#Check if theres a .git folder...
+
 #Apply gitignore rules? don't rely too much on this since it could have been changed
 #How to manage pyc files?
+
+#Check for big folders (see for example the high school repo)
 
 #File checker generator
 results = (FileChecker(f).check() for f in files)
