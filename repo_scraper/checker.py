@@ -11,7 +11,7 @@ def has_password(s):
     #SOMETHING_PASSWORD assigned to strings (match = and <-)
 
     #Matches p_w_d='something' and similar
-    pwd = re.compile('''(\S*(?:\'|\")*(?:p|P)\S*(?:w|W)\S*(?:d|D)(?:\'|\")*\s*(?:=|<-|:)\s*(?:\'|\").*(?:\'|\"))''')
+    pwd = re.compile('(\S*(?:\'|\")*(?:p|P)\S*(?:w|W)\S*(?:d|D)(?:\'|\")*\s*(?:=|<-|:)\s*(?:\'|\").*(?:\'|\"))')
     #Matches pass='something' and similar
     pass_ = re.compile('(\S*(?:\'|\")*(?:pass|PASS)\S*(?:\'|\")*\s*(?:=|<-|:)\s*(?:\'|\").*(?:\'|\"))')
 

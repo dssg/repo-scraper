@@ -41,11 +41,11 @@ class FileChecker:
         with open(self.path, 'r') as f:
             content = f.read()
 
-        #Last check: search for base64 images and remove they, send a warning
-        base64images = re.compile('"image/png": ".+"').findall(content)
+        #Last check: search for potential base64 strings and remove them, send a warning
+        base64images = re.compile('(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')').findall(content)
         if len(base64images):
             print 'REMOVING BASE64 images'
-            content = re.sub('"image/png": ".+"', '',content)
+            content = re.sub('(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')', '""',content)
 
         #Maybe emit warnings for data files (even if they are less than 1MB)
         #has_password, matches = None, None
