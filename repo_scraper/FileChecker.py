@@ -1,6 +1,7 @@
 import mime
 from repo_scraper import checker
 import os
+import re
 
 #Types of results
 #ALERT
@@ -39,6 +40,12 @@ class FileChecker:
         #open the file and then apply all rules
         with open(self.path, 'r') as f:
             content = f.read()
+
+        #Last check: search for base64 images and remove they, send a warning
+        base64images = re.compile('"image/png": ".+"').findall(content)
+        if len(base64images):
+            print 'REMOVING BASE64 images'
+            content = re.sub('"image/png": ".+"', '',content)
 
         #Maybe emit warnings for data files (even if they are less than 1MB)
         #has_password, matches = None, None

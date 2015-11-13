@@ -19,6 +19,9 @@ files = fs.list_files_in(folder_path, ignore_path)
 results = (FileChecker(f).check() for f in files)
 
 #Output results
-for filename, status, matches in results:
-    print '%s status is %s with matches %s\n' % (filename, status, matches)
+# for filename, status, matches in results:
+#     print '%s status is %s with matches %s\n' % (filename, status, matches)
         
+for f in files:
+    print 'Current %s' % f
+    print 'R: %s, %s, %s\n' % FileChecker(f).check()
