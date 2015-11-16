@@ -3,14 +3,19 @@
 Check your projects for possible data/password leaks.
 
 ##Example
-```bash
-scrap-folder dummy-repo
-Checking folder dummy-repo...
 
-dummy-repo/python_file_with_password.py
+Check your dummy-project:
+```bash
+scrap-folder dummy-project
+```
+
+```bash
+Checking folder dummy-project...
+
+dummy-project/python_file_with_password.py
 ALERT - MATCH ["password = 'qwerty'"]
 
-dummy-repo/dangerous_file.json
+dummy-project/dangerous_file.json
 ALERT - MATCH ['"password": "super-secret-password"']
 ```
 

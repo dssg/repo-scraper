@@ -3,7 +3,7 @@ from repo_scraper.FileChecker import FileChecker
 import os
 
 module_path = os.path.dirname(os.path.abspath(__file__))
-dummy_repo_path = os.path.join(module_path, '..', 'dummy-repo')
+dummy_repo_path = os.path.join(module_path, '..', 'dummy-project')
 
 class TestFileChecker(TestCase):
     def test_json_file_with_password(self):
