@@ -1,6 +1,6 @@
 #repo_scraper
 
-Check your projects for possible data/password leaks.
+Check your projects for possible password (or other sensitive data) leaks.
 
 ##Example
 
@@ -9,6 +9,7 @@ Check your dummy-project:
 scrap-folder dummy-project
 ```
 
+Output:
 ```bash
 Checking folder dummy-project...
 
@@ -19,7 +20,7 @@ dummy-project/dangerous_file.json
 ALERT - MATCH ['"password": "super-secret-password"']
 ```
 
-##How does it work
+##How does it work?
 
 ##Installation
 

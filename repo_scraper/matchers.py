@@ -28,9 +28,9 @@ def password_matcher(s):
     #but the string seems a password
     regex_list = [pwd, pass_, urls]
     matches = regex_matcher(regex_list, s)
-    password_matcher = len(matches) > 0
-    matches = None if password_matcher is False else list(set(matches))
-    return password_matcher, matches
+    has_password = len(matches) > 0
+    matches = None if has_password is False else list(set(matches))
+    return has_password, matches
 
 #Checks if a string has ips
 # p = re.compile('(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])')
