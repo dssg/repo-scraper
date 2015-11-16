@@ -53,7 +53,7 @@ class FileChecker:
         #Last check: search for potential base64 strings and remove them, send a warning
         base64images = re.compile('(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')').findall(content)
         if len(base64images):
-            print 'REMOVING BASE64 images'
+            print 'Removing Base64 code...'
             content = re.sub('(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')', '""',content)
 
         #Maybe send warnings for data files (even if they are less than 1MB)?

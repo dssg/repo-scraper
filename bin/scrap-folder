@@ -19,7 +19,9 @@ if args.verbose:
 
 print 'Checking folder %s...' % folder_path
 if ignore_path:
-    print 'Using ignore file %s' % ignore_path
+    print 'Using ignore file %s\n' % ignore_path
+else:
+    print '\n'
 
 #Create an instance of folder checker,
 #this class will list files in all subdirectories,
