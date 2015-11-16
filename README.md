@@ -2,6 +2,18 @@
 
 Check your projects for possible data/password leaks.
 
+##Example
+```bash
+scrap-folder dummy-repo
+Checking folder dummy-repo...
+
+dummy-repo/python_file_with_password.py
+ALERT - MATCH ["password = 'qwerty'"]
+
+dummy-repo/dangerous_file.json
+ALERT - MATCH ['"password": "super-secret-password"']
+```
+
 ##How does it work
 
 ##Installation
@@ -19,7 +31,7 @@ Check your projects for possible data/password leaks.
 ##Usage
 
 ```bash
-    cd path/to/your/projects
+    cd path/to/your/project
     scrap-folder
 ```
 
