@@ -1,10 +1,24 @@
 #!/usr/bin/env python
 from repo_scraper.FolderChecker import FolderChecker
-
 import sys
+import argparse
 
-folder_path = sys.argv[1] if len(sys.argv) > 1 else '.'
-ignore_path = sys.argv[2] if len(sys.argv) > 2 else None
+parser = argparse.ArgumentParser()
+parser.add_argument("folder", help="the folder you want to check", type=str)
+parser.add_argument("-i", "--ignore", help="optional ignore file", type=str)
+args = parser.parse_args()
+
+#Options:
+#Which alerts to print
+folder_path = args.folder
+ignore_path = args.ignore
+
+#results_to_print = ['ALERT', 'WARNING', 'NOTHING']
+results_to_print = ['ALERT']
+
+print 'Checking folder %s...' % folder_path
+if ignore_path:
+    print 'Using ignore file %s' % ignore_path
 
 #Create an instance of folder checker,
 #this class will list files in all subdirectories,
@@ -14,9 +28,6 @@ fc = FolderChecker(folder_path, ignore_path)
 
 #Get the generator to traverse the folder structure
 file_traverser = fc.file_traverser()
-
-#results_to_print = ['ALERT', 'WARNING', 'NOTHING']
-results_to_print = ['ALERT']
 
 for result in file_traverser:
     if result.result_type in results_to_print:
