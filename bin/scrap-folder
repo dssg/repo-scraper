@@ -6,15 +6,16 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("folder", help="the folder you want to check", type=str)
 parser.add_argument("-i", "--ignore", help="optional ignore file", type=str)
+parser.add_argument("-v", "--verbose", action="store_true", help="prints all results, including no matches and warnings")
 args = parser.parse_args()
 
-#Options:
-#Which alerts to print
+
 folder_path = args.folder
 ignore_path = args.ignore
 
-#results_to_print = ['ALERT', 'WARNING', 'NOTHING']
 results_to_print = ['ALERT']
+if args.verbose:
+    results_to_print += ['WARNING', 'NOTHING']
 
 print 'Checking folder %s...' % folder_path
 if ignore_path:
@@ -31,5 +32,4 @@ file_traverser = fc.file_traverser()
 
 for result in file_traverser:
     if result.result_type in results_to_print:
-        print f
-        print '\t\t%s\n' % r.matches
+        print result

@@ -22,7 +22,7 @@ class Result:
         self.matches = matches
         self.result_type = dic[reason]
     def __str__(self):
-        return '%s - %s - %s %s' % (self.file_path, self.reason, self.matches, self.result_type)
+        return '%s\n%s - %s %s\n' % (self.file_path, self.result_type, self.reason, self.matches)
 
 class FileChecker:
     def __init__(self, path):
