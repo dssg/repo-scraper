@@ -54,4 +54,9 @@ Adding a IGNORE file will make execution faster, since many regular expressions 
 
 ##What's done
 
+* Passwords (using regex). See [`test_password_check.py`](tests/test_password_check.py)
+
 ##What's missing
+
+* IPs
+* URLs
