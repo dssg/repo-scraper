@@ -21,6 +21,8 @@ class Result:
         self.reason = reason
         self.matches = matches
         self.result_type = dic[reason]
+    def __str__(self):
+        return '%s - %s - %s %s' % (self.file_path, self.reason, self.matches, self.result_type)
 
 class FileChecker:
     def __init__(self, path):
@@ -54,9 +56,11 @@ class FileChecker:
             print 'REMOVING BASE64 images'
             content = re.sub('(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')', '""',content)
 
-        #Maybe emit warnings for data files (even if they are less than 1MB)
-        #password_matcher, matches = None, None
+        #Maybe send warnings for data files (even if they are less than 1MB)?
+
+        #First matcher: passwords
         password_matcher, matches = matchers.password_matcher(content)
+
         if password_matcher:
             return Result(self.path, MATCH, matches)
         else:
