@@ -1,10 +1,6 @@
 import re
 
-#This file contains code that checks a file for
-#potential problems:
-#passwords, ips, data files (check file size?)
-
-def has_password(s):
+def password_matcher(s):
     #Case 1: hardcoded passwords assigned to variables (python, r, etc) 
     #or values (json, csv, etc)
     #match variable names such as password, PASSWORD, pwd, pass,
@@ -32,20 +28,19 @@ def has_password(s):
     #but the string seems a password
     regex_list = [pwd, pass_, urls]
     matches = regex_matcher(regex_list, s)
-    has_password = len(matches) > 0
-    matches = None if has_password is False else list(set(matches))
-    return has_password, matches
-
-#maybe also check aws related urls
+    password_matcher = len(matches) > 0
+    matches = None if password_matcher is False else list(set(matches))
+    return password_matcher, matches
 
 #Checks if a string has ips
 # p = re.compile('(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])')
 # p = re.compile('\d+')
 # p.findall('this does not have ips')
 # p.findall('Oh, look! an IP 192.168.1.22')
-def has_ip(str):
+def ip_matcher(str):
     return False, None
 
+#maybe also check aws related urls
 
 def regex_matcher(regex_list, s):
     '''Get a list of regex and return all matches'''

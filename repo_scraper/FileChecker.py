@@ -1,5 +1,5 @@
 import mime
-from repo_scraper import checker
+from repo_scraper import matchers
 import os
 import re
 
@@ -55,9 +55,9 @@ class FileChecker:
             content = re.sub('(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')', '""',content)
 
         #Maybe emit warnings for data files (even if they are less than 1MB)
-        #has_password, matches = None, None
-        has_password, matches = checker.has_password(content)
-        if has_password:
+        #password_matcher, matches = None, None
+        password_matcher, matches = matchers.password_matcher(content)
+        if password_matcher:
             return Result(self.path, MATCH, matches)
         else:
             return Result(self.path, NOT_MATCH)

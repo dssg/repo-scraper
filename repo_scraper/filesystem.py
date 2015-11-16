@@ -27,10 +27,8 @@ def match_glob_rules_in_directory(glob_rules, directory):
     glob_matches = [glob.glob(rule) for rule in glob_rules]
     #Flatten matches
     glob_matches = reduce(lambda x,y: x+y, glob_matches)
-    #Remove duplicates
-    glob_matches = set(glob_matches)
-    return glob_matches
-
+    #Convert to a set to remove duplicates
+    return set(glob_matches)
 
 def parse_ignore_file(ignore_file):
     #Open file
