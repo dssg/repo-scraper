@@ -1,49 +1,33 @@
-import subprocess
-import re
+from repo_scraper import git
 from repo_scraper.matchers import password_matcher
+import subprocess
 
-def list_commits():
-    '''Returns a list with all commit hashes'''
-    p = subprocess.Popen(['git', 'log', '--pretty=format:%H'],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
-    out, err = p.communicate()
-    return out.replace('"', '').split('\n')
+#Checkout master
+subprocess.call(['git', 'checkout', 'master'])
 
+#Get all commits, reverse the list to get them in chronological order
+commits = git.list_commits()[::-1]
 
-def diff_for_commit(commit_hash):
-    '''Retrieves diff for a specific commit and parses it
-       to get file name and additions'''
-    p = subprocess.Popen(['git', 'diff', commit_hash],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE)
-    out, err = p.communicate()
-    #For some reason, this commands is returning with ""\n at the
-    #beginning of the file
-    diff = out.replace('""\n', '')
-    return parse_diff(diff)
+#Go to the first commit
+subprocess.call(['git', 'checkout', commits[0]])
 
-def parse_diff(diff):
-    '''Parse a diff output'''
-    files = diff.split('diff --git ')[1:]
-    files = [parse_file_diff(f) for f in files]
-    return files
+#Run folder checker on first commit
 
-#http://stackoverflow.com/questions/2529441/how-to-read-the-output-from-git-diff
-def parse_file_diff(diff):
-    '''Parse a diff oputput'''
-    lines = diff.split('\n')
-    filename = lines[0]
-    content = filter(lambda x: x.startswith('+'), lines[1:])
-    content = reduce(lambda x,y:x+'\n'+y, content) if len(content) else ''
-    return {'filename': filename, 'content': content}
+#Checkout master
+subprocess.call(['git', 'checkout', 'master'])
 
-commits = list_commits()
-for commit in commits[8:10]:
-    print 'Checking commit %s' % commit
-    files = diff_for_commit(commit)
+#Generate commit pairs (each commit with the previous one)
+commit_pairs = zip(commits[:-1], commits[1:])
+
+#Then checkings on each consecutive pair of commits, to account for addictions
+#only
+for pair in commit_pairs:
+    print 'Checking commit %s with %s' % pair
+    files = git.diff_for_commit_to_commit(*pair)
     for f in files:
         has_password, matches = password_matcher(f['content'])
+        #print 'content is: %s' % f['content']
         if has_password:
             print 'Passwords in file %s, \nmatches: %s\n\n' % (f['filename'], matches)
     print '-----------------------'
+
