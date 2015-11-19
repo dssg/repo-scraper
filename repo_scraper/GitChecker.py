@@ -21,12 +21,13 @@ commit_pairs = zip(commits[:-1], commits[1:])
 
 #Then checkings on each consecutive pair of commits, to account for addictions
 #only
-for pair in commit_pairs[:20]:
+for pair in commit_pairs[601:700]:
     print 'Checking commit %s with %s' % pair
     files = git.diff_for_commit_to_commit(*pair)
     for f in files:
-        result = DiffChecker(f['filename'], f['content']).check()
-        if result.result_type == 'ALERT':
-            print 'Passwords in file %s, \nmatches: %s' % (result.filename, result.matches)
+        print 'file %s' % f['filename']
+        result = DiffChecker(f['filename'], f['content'], f['error']).check()
+        print '%s - %s - %s\nmatches: %s' % (result.result_type, result.reason, result.filename, result.matches)
+        print '--'
     print '-----------------------'
 

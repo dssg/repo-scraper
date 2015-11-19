@@ -1,4 +1,5 @@
 import subprocess
+import re
 
 def list_commits():
     '''Returns a list with all commit hashes'''
@@ -35,7 +36,12 @@ def parse_file_diff(diff):
     #File line is the first line here, with the following format:
     #a/file.txt b/file2.txt where file and file2 are different
     #only if the file was renamed, in which case the current name is file2
-    filename = lines[0].split(' ')[1].split('/')[1]
+    filename = re.compile('.*/(.*)').findall(lines[0])[0]
     content = filter(lambda x: x.startswith('+'), lines[1:])
     content = reduce(lambda x,y:x+'\n'+y, content) if len(content) else ''
-    return {'filename': filename, 'content': content}
+    #Threshold for the number of characters
+    if len(content) > 1048576:
+        return {'filename': filename, 'content': None, 'error': 'BIG_FILE'}
+    else:
+        return {'filename': filename, 'content': content, 'error': None}
+

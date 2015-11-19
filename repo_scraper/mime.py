@@ -1,4 +1,5 @@
 import magic
+import mimetypes
 
 #This script wraps the mimetype functionality
 #if python-magic is installed uses it, since it's more reliable
@@ -6,4 +7,5 @@ import magic
 #to guess the mimetype
 
 def from_file(path):
-    return magic.from_file(path, mime=True)
+    return mimetypes.guess_type(path)[0]
+    #return magic.from_file(path, mime=True)
