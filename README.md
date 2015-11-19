@@ -61,3 +61,8 @@ Adding a IGNORE file will make execution faster, since many regular expressions 
 
 * IPs
 * URLs
+
+#TODO
+* Make magic-python dependency optional
+* Better installation guide
+* Come up with a cool name
