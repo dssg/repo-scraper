@@ -1,5 +1,14 @@
 import re
 
+def base64_matcher(s, remove=False):
+    regex = '(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')'
+    base64images = re.compile(regex).findall(s)
+    has_base64 = len(base64images) > 0
+    if remove:
+        return has_base64, re.sub(regex, '""', s)
+    else:
+        return has_base64
+
 def password_matcher(s):
     #Case 1: hardcoded passwords assigned to variables (python, r, etc) 
     #or values (json, csv, etc)
