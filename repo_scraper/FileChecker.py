@@ -1,28 +1,8 @@
 import mime
 from repo_scraper import matchers
+from repo_scraper.Result import * #Need to find a better way to do this
 import os
 import re
-
-
-ALERT = 'ALERT'
-WARNING = 'WARNING'
-NOTHING = 'NOTHING'
-
-BIG_FILE = 'BIG_FILE'
-NOT_PLAIN_TEXT = 'NOT_PLAIN_TEXT'
-MATCH = 'MATCH'
-NOT_MATCH = 'NOT_MATCH'
-
-dic = {BIG_FILE: WARNING, NOT_PLAIN_TEXT: WARNING, MATCH: ALERT, NOT_MATCH: NOTHING}
-
-class Result:
-    def __init__(self, file_path, reason, matches=None):
-        self.file_path = file_path
-        self.reason = reason
-        self.matches = matches
-        self.result_type = dic[reason]
-    def __str__(self):
-        return '%s\n%s - %s %s\n' % (self.file_path, self.result_type, self.reason, self.matches)
 
 class FileChecker:
     def __init__(self, path):

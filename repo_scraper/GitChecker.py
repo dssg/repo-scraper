@@ -1,5 +1,5 @@
 from repo_scraper import git
-from repo_scraper.matchers import password_matcher
+from repo_scraper.DiffChecker import DiffChecker
 import subprocess
 
 #Checkout master
@@ -21,13 +21,12 @@ commit_pairs = zip(commits[:-1], commits[1:])
 
 #Then checkings on each consecutive pair of commits, to account for addictions
 #only
-for pair in commit_pairs:
+for pair in commit_pairs[:20]:
     print 'Checking commit %s with %s' % pair
     files = git.diff_for_commit_to_commit(*pair)
     for f in files:
-        has_password, matches = password_matcher(f['content'])
-        #print 'content is: %s' % f['content']
-        if has_password:
-            print 'Passwords in file %s, \nmatches: %s\n\n' % (f['filename'], matches)
+        result = DiffChecker(f['filename'], f['content']).check()
+        if result.result_type == 'ALERT':
+            print 'Passwords in file %s, \nmatches: %s' % (result.filename, result.matches)
     print '-----------------------'
 
