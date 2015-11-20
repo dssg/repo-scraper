@@ -3,6 +3,8 @@ from repo_scraper.DiffChecker import DiffChecker
 import subprocess
 
 class GitChecker:
+    def __init__(self, allowed_extensions):
+        self.allowed_extensions = allowed_extensions
     def file_traverser(self):
         #Checkout master
         subprocess.call(['git', 'checkout', 'master'])
@@ -21,4 +23,4 @@ class GitChecker:
             files_diff = git.diff_for_commit_to_commit(*pair)
             for f in files_diff:
                 #print 'gichecker: %s' % f['filename']+' in '+pair[1]
-                yield DiffChecker(f['filename']+' in '+pair[1], f['content'], f['error']).check()
+                yield DiffChecker(pair[1], f['filename'], f['content'], f['error'], self.allowed_extensions).check()

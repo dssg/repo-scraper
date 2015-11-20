@@ -1,4 +1,4 @@
-import mime
+import filetype
 from repo_scraper import matchers
 from repo_scraper.Result import * #Need to find a better way to do this
 import os
@@ -7,7 +7,7 @@ import re
 class FileChecker:
     def __init__(self, path):
         self.path = path
-        self.mimetype = mime.from_file(path)
+        self.mimetype = filetype.mime_from_file(path)
     def check(self):
         #Check file size if it's more than 1MB
         #send just a warning and do not open the file,

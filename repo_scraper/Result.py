@@ -17,10 +17,10 @@ dic = {
        }
 
 class Result:
-    def __init__(self, filename, reason, matches=None):
-        self.filename = filename
+    def __init__(self, identifier, reason, matches=None):
+        self.identifier = identifier
         self.reason = reason
         self.matches = matches
         self.result_type = dic[reason]
     def __str__(self):
-        return '%s\n%s - %s %s\n' % (self.filename, self.result_type, self.reason, self.matches)
+        return '%s\n%s - %s %s\n' % (self.identifier, self.result_type, self.reason, self.matches)

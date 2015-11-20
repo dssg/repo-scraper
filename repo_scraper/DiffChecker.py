@@ -1,12 +1,14 @@
 from repo_scraper import matchers
 from repo_scraper.Result import * #need to find a better way to do this
-from repo_scraper import mime
+from repo_scraper import filetype
 
 class DiffChecker:
-    def __init__(self, filename, content, error):
+    def __init__(self, commit_hash, filename, content, error, allowed_extensions):
+        self.commit_hash = commit_hash
         self.filename = filename
         self.content = content
         self.error = error
+        self.allowed_extensions = allowed_extensions
     def check(self):
         #Git is smart enough to detect changes binary files when doing diff,
         #will not show any differences, only a message similar to this:
@@ -20,12 +22,12 @@ class DiffChecker:
     
         #Check file extension, if it's a text file continue, if it's not,
         #send a warning and skip
-        if mime.from_file(self.filename) is None:
-            return Result(self.filename, NOT_PLAIN_TEXT)
+        #if filetype.mime_from_name(self.filename) is None:
+        #    return Result(self.filename, NOT_PLAIN_TEXT)
 
         #Check if extension/mimetype is allowed
-        if self.filename.endswith('csv'):
-            return Result(self.filename, FILETYPE_NOT_ALLOWED)
+        if filetype.get_extension(self.filename) not in self.allowed_extensions:
+            return Result(self.filename+' in '+self.commit_hash, FILETYPE_NOT_ALLOWED)
         
         #Start applying rules...
         #First check if additions contain base64, if there is remove it
@@ -37,6 +39,6 @@ class DiffChecker:
         has_pwd, matches = matchers.password_matcher(self.content)
 
         if has_pwd:
-            return Result(self.filename, MATCH, matches)
+            return Result(self.filename+' in '+self.commit_hash, MATCH, matches)
         else:
-            return Result(self.filename, NOT_MATCH)
+            return Result(self.filename+' in '+self.commit_hash, NOT_MATCH)
