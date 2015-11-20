@@ -6,8 +6,15 @@ BIG_FILE = 'BIG_FILE'
 NOT_PLAIN_TEXT = 'NOT_PLAIN_TEXT'
 MATCH = 'MATCH'
 NOT_MATCH = 'NOT_MATCH'
+FILETYPE_NOT_ALLOWED = 'FILETYPE_NOT_ALLOWED'
 
-dic = {BIG_FILE: WARNING, NOT_PLAIN_TEXT: WARNING, MATCH: ALERT, NOT_MATCH: NOTHING}
+dic = {
+        BIG_FILE: WARNING,
+        NOT_PLAIN_TEXT: WARNING,
+        MATCH: ALERT,
+        NOT_MATCH: NOTHING,
+        FILETYPE_NOT_ALLOWED: WARNING
+       }
 
 class Result:
     def __init__(self, filename, reason, matches=None):

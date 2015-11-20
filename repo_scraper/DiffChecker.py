@@ -24,6 +24,8 @@ class DiffChecker:
             return Result(self.filename, NOT_PLAIN_TEXT)
 
         #Check if extension/mimetype is allowed
+        if self.filename.endswith('csv'):
+            return Result(self.filename, FILETYPE_NOT_ALLOWED)
         
         #Start applying rules...
         #First check if additions contain base64, if there is remove it

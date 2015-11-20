@@ -2,32 +2,21 @@ from repo_scraper import git
 from repo_scraper.DiffChecker import DiffChecker
 import subprocess
 
-#Checkout master
-subprocess.call(['git', 'checkout', 'master'])
+class GitChecker:
+    def file_traverser(self):
+        #Checkout master
+        subprocess.call(['git', 'checkout', 'master'])
+        #Get all commits, reverse the list to get them in chronological order
+        commits = git.list_commits()[::-1]
+        #Go to the first commit
+        subprocess.call(['git', 'checkout', commits[0]])
+        #Run folder checker on first commit
 
-#Get all commits, reverse the list to get them in chronological order
-commits = git.list_commits()[::-1]
-
-#Go to the first commit
-subprocess.call(['git', 'checkout', commits[0]])
-
-#Run folder checker on first commit
-
-#Checkout master
-subprocess.call(['git', 'checkout', 'master'])
-
-#Generate commit pairs (each commit with the previous one)
-commit_pairs = zip(commits[:-1], commits[1:])
-
-#Then checkings on each consecutive pair of commits, to account for addictions
-#only
-for pair in commit_pairs[601:700]:
-    print 'Checking commit %s with %s' % pair
-    files = git.diff_for_commit_to_commit(*pair)
-    for f in files:
-        print 'file %s' % f['filename']
-        result = DiffChecker(f['filename'], f['content'], f['error']).check()
-        print '%s - %s - %s\nmatches: %s' % (result.result_type, result.reason, result.filename, result.matches)
-        print '--'
-    print '-----------------------'
-
+        #Checkout master
+        subprocess.call(['git', 'checkout', 'master'])
+        #Generate commit pairs (each commit with the previous one)
+        commit_pairs = zip(commits[:-1], commits[1:])
+        for pair in commit_pairs:
+            files_diff = git.diff_for_commit_to_commit(*pair)
+            for f in files_diff:
+                yield DiffChecker(f['filename']+' in '+pair[1], f['content'], f['error']).check()
