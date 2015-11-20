@@ -1,7 +1,7 @@
 import re
 
 def base64_matcher(s, remove=False):
-    regex = '(?:"|\')[A-Za-z0-9\\+\\\=\\/]{100,}(?:"|\')'
+    regex = '(?:"|\')[A-Za-z0-9\\+\\\=\\/]{50,}(?:"|\')'
     base64images = re.compile(regex).findall(s)
     has_base64 = len(base64images) > 0
     if remove:

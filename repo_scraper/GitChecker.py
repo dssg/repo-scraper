@@ -17,6 +17,8 @@ class GitChecker:
         #Generate commit pairs (each commit with the previous one)
         commit_pairs = zip(commits[:-1], commits[1:])
         for pair in commit_pairs:
+            #print 'getting diff for %s %s' % pair
             files_diff = git.diff_for_commit_to_commit(*pair)
             for f in files_diff:
+                #print 'gichecker: %s' % f['filename']+' in '+pair[1]
                 yield DiffChecker(f['filename']+' in '+pair[1], f['content'], f['error']).check()

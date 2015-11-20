@@ -37,9 +37,17 @@ def parse_file_diff(diff):
     #a/file.txt b/file2.txt where file and file2 are different
     #only if the file was renamed, in which case the current name is file2
     filename = re.compile('.*/(.*)').findall(lines[0])[0]
+
+    #If there are many lines in the diff file, the filter for addisions
+    #is going to break, check how many lines there are
+    #print 'lines for content %s' % len(lines[1:])
+    if len(lines[1:]) > 10000:
+        return {'filename': filename, 'content': None, 'error': 'BIG_FILE'}
+
     content = filter(lambda x: x.startswith('+'), lines[1:])
     content = reduce(lambda x,y:x+'\n'+y, content) if len(content) else ''
     #Threshold for the number of characters
+    #print 'len is: %d' % len(content)
     if len(content) > 1048576:
         return {'filename': filename, 'content': None, 'error': 'BIG_FILE'}
     else:
