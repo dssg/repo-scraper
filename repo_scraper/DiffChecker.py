@@ -3,13 +3,16 @@ from repo_scraper.Result import * #need to find a better way to do this
 from repo_scraper import filetype
 
 class DiffChecker:
-    def __init__(self, commit_hash, filename, content, error, allowed_extensions):
-        self.commit_hash = commit_hash
+    def __init__(self, commit_hashes, filename, content, error, allowed_extensions):
+        self.commit_hashes = commit_hashes
         self.filename = filename
         self.content = content
         self.error = error
         self.allowed_extensions = allowed_extensions
     def check(self):
+        #Build the identifier using the filename and commit hashes
+        identifier = '%s from commit %s to commit %s' % (self.filename, self.commit_hashes[0], self.commit_hashes[1])
+
         #The commments is a list to keep track of useful information
         #encountered when checking, right now, its only being used
         #to annotate when base64 code was removed
@@ -32,7 +35,7 @@ class DiffChecker:
 
         #Check if extension/mimetype is allowed
         if filetype.get_extension(self.filename) not in self.allowed_extensions:
-            return Result(self.filename+' in '+self.commit_hash, FILETYPE_NOT_ALLOWED)
+            return Result(identifier, FILETYPE_NOT_ALLOWED)
         
         #Start applying rules...
         #First check if additions contain base64, if there is remove it
@@ -44,6 +47,6 @@ class DiffChecker:
         has_pwd, matches = matchers.password_matcher(self.content)
 
         if has_pwd:
-            return Result(self.filename+' in '+self.commit_hash, MATCH, matches=matches, comments=commments)
+            return Result(identifier, MATCH, matches=matches, comments=commments)
         else:
-            return Result(self.filename+' in '+self.commit_hash, NOT_MATCH, comments=commments)
+            return Result(identifier, NOT_MATCH, comments=commments)

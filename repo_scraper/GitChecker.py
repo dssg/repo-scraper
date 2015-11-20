@@ -23,4 +23,4 @@ class GitChecker:
             files_diff = git.diff_for_commit_to_commit(*pair)
             for f in files_diff:
                 #print 'gichecker: %s' % f['filename']+' in '+pair[1]
-                yield DiffChecker(pair[1], f['filename'], f['content'], f['error'], self.allowed_extensions).check()
+                yield DiffChecker(pair, f['filename'], f['content'], f['error'], self.allowed_extensions).check()
