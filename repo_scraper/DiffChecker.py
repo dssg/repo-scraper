@@ -44,6 +44,6 @@ class DiffChecker:
         has_pwd, matches = matchers.password_matcher(self.content)
 
         if has_pwd:
-            return Result(self.filename+' in '+self.commit_hash, MATCH, matches=matches, commments=commments)
+            return Result(self.filename+' in '+self.commit_hash, MATCH, matches=matches, comments=commments)
         else:
-            return Result(self.filename+' in '+self.commit_hash, NOT_MATCH, commments=commments)
+            return Result(self.filename+' in '+self.commit_hash, NOT_MATCH, comments=commments)
