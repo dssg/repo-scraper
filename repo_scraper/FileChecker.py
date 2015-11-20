@@ -31,7 +31,7 @@ class FileChecker:
             content = f.read()
 
         #Last check: search for potential base64 strings and remove them, send a warning
-        has_base64, content = base64_matcher(content, remove=True)
+        has_base64, content = matchers.base64_matcher(content, remove=True)
         if has_base64:
             print 'Removing base64 code...'
 

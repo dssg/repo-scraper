@@ -16,15 +16,15 @@ def password_matcher(s):
     #SOMETHING_PASSWORD assigned to strings (match = and <-)
 
     #Matches p_w_d='something' and similar
-    pwd = re.compile('(\S*(?:\'|\")*(?:p|P)\S*(?:w|W)\S*(?:d|D)(?:\'|\")*\s*(?:=|<-|:)\s*(?:\'|\").*(?:\'|\"))')
+    pwd = re.compile('(\S*\\\*(?:\'|\")*(?:p|P)\S*(?:w|W)\S*(?:d|D)\\\*(?:\'|\")*\s*(?:=|<-|:)\s*\\\*(?:\'|\").*\\\*(?:\'|\"))')
     #Matches pass='something' and similar
-    pass_ = re.compile('(\S*(?:\'|\")*(?:pass|PASS)\S*(?:\'|\")*\s*(?:=|<-|:)\s*(?:\'|\").*(?:\'|\"))')
+    pass_ = re.compile('(\S*\\\*(?:\'|\")*(?:pass|PASS)\S*\\\*(?:\'|\")*\s*(?:=|<-|:)\s*\\\*(?:\'|\").*\\\*(?:\'|\"))')
 
     #Case 2: URLS (e.g. SQLAlchemy engines)
     #http://docs.sqlalchemy.org/en/rel_1_0/core/engines.html
     #Note that validating URls is really hard...
     #http://stackoverflow.com/questions/827557/how-do-you-validate-a-url-with-a-regular-expression-in-python
-    urls = re.compile('(?:\'|\")*[a-zA-Z0-9-_]+://[a-zA-Z0-9-_]+:[a-zA-Z0-9-_]+@[a-zA-Z0-9-_]+:[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+(?:\'|\")*')
+    urls = re.compile('\\\*(?:\'|\")*[a-zA-Z0-9-_]+://[a-zA-Z0-9-_]+:[a-zA-Z0-9-_]+@[a-zA-Z0-9-_]+:[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+\\\*(?:\'|\")*')
 
     #Case 3: Passwords in bash files (bash, psql, etc) bash parameters
 
