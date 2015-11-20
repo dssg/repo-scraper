@@ -6,7 +6,7 @@ Check your projects for possible password (or other sensitive data) leaks.
 
 Check your dummy-project:
 ```bash
-scrap-folder dummy-project
+check-folder dummy-project
 ```
 
 Output:
@@ -38,13 +38,13 @@ ALERT - MATCH ['"password": "super-secret-password"']
 
 ```bash
     cd path/to/your/project
-    scrap-folder
+    check-folder
 ```
 
 See help for more options available:
 
 ```bash
-    scrap-folder --help
+    check-folder --help
 ```
 
 ###Using a IGNORE file
