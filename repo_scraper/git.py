@@ -36,7 +36,7 @@ def parse_file_diff(diff):
     #File line is the first line here, with the following format:
     #a/file.txt b/file2.txt where file and file2 are different
     #only if the file was renamed, in which case the current name is file2
-    filename = re.compile('.*/(.*)').findall(lines[0])[0]
+    filename = re.compile('.{1}/{1}(.*)').findall(lines[0])[0]
 
     #If there are many lines in the diff file, the filter for addisions
     #is going to break, check how many lines there are
