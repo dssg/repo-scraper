@@ -8,16 +8,19 @@ class GitChecker:
     def file_traverser(self):
         #Checkout master
         print 'git checkout master'
-        subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.communicate()
         #Get all commits, reverse the list to get them in chronological order
         commits = git.list_commits()[::-1]
         #Go to the first commit
         print 'git checkout %s (first commit in master)' % commits[0]
-        subprocess.Popen(['git', 'checkout', commits[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(['git', 'checkout', commits[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.communicate()
         #Run folder checker on first commit
         #Checkout master
         print 'git checkout master'
-        subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.communicate()
         #Generate commit pairs (each commit with the previous one)
         commit_pairs = zip(commits[:-1], commits[1:])
         for pair in commit_pairs:
