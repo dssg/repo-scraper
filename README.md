@@ -61,6 +61,7 @@ Adding a IGNORE file will make execution faster, since many regular expressions 
 
 * IPs
 * URLs
+* Check other branches apart from master
 
 #TODO
 * Make magic-python dependency optional
