@@ -17,10 +17,11 @@ dic = {
        }
 
 class Result:
-    def __init__(self, identifier, reason, matches=None):
+    def __init__(self, identifier, reason, matches=None, comments=None):
         self.identifier = identifier
         self.reason = reason
         self.matches = matches
         self.result_type = dic[reason]
+        self.comments = comments
     def __str__(self):
         return '%s\n%s - %s %s\n' % (self.identifier, self.result_type, self.reason, self.matches)
