@@ -1,3 +1,0 @@
-{
-    "allowed": ["py", "ipynb", "json", "sql", "sh", "txt", "r", "md", "log"],
-}

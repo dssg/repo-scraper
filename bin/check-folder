@@ -5,7 +5,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("directory", help="the directory you want to check", type=str)
 parser.add_argument("-i", "--ignore", help="optional ignore file", type=str)
-parser.add_argument("-v", "--verbose", action="store_true", help="prints all results, including no matches and warnings")
+parser.add_argument("-v", "--verbose", action="store_true", help="prints all results, including non-matches and warnings")
 args = parser.parse_args()
 
 folder_path = args.directory

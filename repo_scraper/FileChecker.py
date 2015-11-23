@@ -5,20 +5,21 @@ import os
 import re
 
 class FileChecker:
-    def __init__(self, path):
+    def __init__(self, path, max_file_size_bytes=1048576):
         self.path = path
         self.mimetype = filetype.mime_from_file(path)
+        self.max_file_size_bytes = max_file_size_bytes
     def check(self):
         #The comments is a list to keep track of useful information
         #encountered when checking, right now, its only being used
         #to annotate when base64 code was removed
         comments = []
 
-        #Check file size if it's more than 1MB
+        #Check file size if it's more than max_file_size_bytes (default is 1MB)
         #send just a warning and do not open the file,
         #since pattern matching is going to be really slow
         f_size = os.stat(self.path).st_size
-        if f_size > 1048576L:
+        if f_size > self.max_file_size_bytes:
             return Result(self.path, BIG_FILE)
   
         #Then, filter all non-plain text files
