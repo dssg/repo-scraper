@@ -16,7 +16,7 @@ if args.verbose:
     results_to_print += ['WARNING', 'NOTHING']
 
 if args.extensions:
-    allowed_extensions = re.compile(',\s*\.?').split(args.extensions)
+    allowed_extensions = re.compile(',\s*\.?').split(args.extensions.lower())
 else:
     allowed_extensions = constants.DEFAULT_EXTENSIONS
 

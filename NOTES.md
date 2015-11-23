@@ -14,6 +14,7 @@ As it is mentioned on the [README](/README.md) file, checking only at the differ
 
 ##`git diff` and file size
 
+
 ##`git diff`  and binary files
 
 By default, `git diff` does not show changes in binary files. That make things easier since we do not need to check if the file we are dealing with is binary before applying the regular expressions. However, what git interprets as a binary file depends on your configuration. That being said, `check-repo` will not look at binary files and will only print a warning.
