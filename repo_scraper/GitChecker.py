@@ -40,8 +40,3 @@ class GitChecker:
 
         #Join both generators and return
         return chain(folder_file_traverser, repo_file_traverser)
-        
-        #Checkout master
-        #print 'git checkout master'
-        #p = subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        #p.communicate()

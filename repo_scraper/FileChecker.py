@@ -9,6 +9,11 @@ class FileChecker:
         self.path = path
         self.mimetype = filetype.mime_from_file(path)
     def check(self):
+        #The comments is a list to keep track of useful information
+        #encountered when checking, right now, its only being used
+        #to annotate when base64 code was removed
+        comments = []
+
         #Check file size if it's more than 1MB
         #send just a warning and do not open the file,
         #since pattern matching is going to be really slow
@@ -33,7 +38,7 @@ class FileChecker:
         #Last check: search for potential base64 strings and remove them, send a warning
         has_base64, content = matchers.base64_matcher(content, remove=True)
         if has_base64:
-            print 'Removing base64 code...'
+            comments.append('BASE64_REMOVED')
 
         #Maybe send warnings for data files (even if they are less than 1MB)?
 
@@ -41,6 +46,6 @@ class FileChecker:
         password_matcher, matches = matchers.password_matcher(content)
 
         if password_matcher:
-            return Result(self.path, MATCH, matches)
+            return Result(self.path, MATCH, matches=matches, comments=comments)
         else:
-            return Result(self.path, NOT_MATCH)
+            return Result(self.path, NOT_MATCH, comments=comments)

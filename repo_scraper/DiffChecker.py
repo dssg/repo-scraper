@@ -13,10 +13,10 @@ class DiffChecker:
         #Build the identifier using the filename and commit hashes
         identifier = '%s from commit %s to commit %s' % (self.filename, self.commit_hashes[0], self.commit_hashes[1])
 
-        #The commments is a list to keep track of useful information
+        #The comments is a list to keep track of useful information
         #encountered when checking, right now, its only being used
         #to annotate when base64 code was removed
-        commments = []
+        comments = []
 
         #Git is smart enough to detect changes binary files when doing diff,
         #will not show any differences, only a message similar to this:
@@ -41,12 +41,12 @@ class DiffChecker:
         #First check if additions contain base64, if there is remove it
         has_base64, self.content = matchers.base64_matcher(self.content, remove=True)
         if has_base64:
-            commments.append('BASE64_REMOVED')
+            comments.append('BASE64_REMOVED')
         
         #Now check for passwords
         has_pwd, matches = matchers.password_matcher(self.content)
 
         if has_pwd:
-            return Result(identifier, MATCH, matches=matches, comments=commments)
+            return Result(identifier, MATCH, matches=matches, comments=comments)
         else:
-            return Result(identifier, NOT_MATCH, comments=commments)
+            return Result(identifier, NOT_MATCH, comments=comments)

@@ -31,8 +31,12 @@ ALERT - MATCH ['"password": "super-secret-password"']
 ##Dependencies
 
 * glob2
-* python-magic
+* python-magic (and magiblib)
 * nose (for running tests)
+
+##Tested with
+* Python 2.7.10
+* Git 2.6.0
 
 ##Usage
 

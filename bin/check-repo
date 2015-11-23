@@ -12,3 +12,8 @@ file_traverser =  gc.file_traverser()
 for result in file_traverser:
     if result.result_type=='ALERT':
         print result
+
+#Checkout master
+#print 'git checkout master'
+#p = subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#p.communicate()
