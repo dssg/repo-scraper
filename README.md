@@ -28,7 +28,7 @@ ALERT - MATCH ['"password": "super-secret-password"']
 
 ##How does it work?
 
-The project has some limitations see [NOTES]('NOTES.md') file for information regarding the design of the project and how that limits what the library is able to detect..
+The project has some limitations see [NOTES](NOTES.md) file for information regarding the design of the project and how that limits what the library is able to detect.
 
 ##Installation
 
@@ -60,9 +60,11 @@ See help for more options available:
 
 ###Using a IGNORE file with check-folder
 
-Just as with git, you can specify a file to make the program ignore some files/folders. This is specially useful when you have folder with many log files that you are sure do not have sensitive data.
+Just as with git, you can specify a file to make the program ignore some files/folders. This is specially useful when you have folder with many log files that you are sure do not have sensitive data. The library assumes one glob rule per line.
 
 Adding a IGNORE file will make execution faster, since many regular expressions are matched against all files that have certain characteristics.
+
+**Important**: Even though the format is very similar, you cannot use the same rules as in your [.gitignore](https://git-scm.com/docs/gitignore) file. For more details, see [this](https://en.wikipedia.org/wiki/Glob_(programming)).
 
 ##What's done
 
