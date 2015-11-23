@@ -9,7 +9,7 @@ def list_commits():
     out, err = p.communicate()
 
     #See comments on the function definition for details
-    git.check_stderr(err)
+    check_stderr(err)
 
     #Split by breakline to get a list and reverse the order
     #so the first commit comes first
@@ -26,7 +26,7 @@ def diff_for_commit_to_commit(commit1_hash, commit2_hash):
     out, err = p.communicate()
 
     #See comments on the function definition for details
-    git.check_stderr(err)
+    check_stderr(err)
 
     #For some reason, this commands is returning with ""\n at the
     #beginning of the file

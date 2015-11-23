@@ -4,6 +4,7 @@ from repo_scraper.DiffChecker import DiffChecker
 from repo_scraper.FolderChecker import FolderChecker
 import subprocess
 
+
 class GitChecker:
     def __init__(self, allowed_extensions):
         self.allowed_extensions = allowed_extensions
