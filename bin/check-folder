@@ -3,6 +3,7 @@ from repo_scraper.FolderChecker import FolderChecker
 from repo_scraper import constants
 import argparse
 import re
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("directory", help="the directory you want to check", type=str)
@@ -12,6 +13,13 @@ parser.add_argument("-e", "--extensions",
     help='''Comma-separated extensions, files that don't match any of these will raise a warning.
          If empty, uses default list: %s ''' % constants.DEFAULT_EXTENSIONS_FORMAT)
 args = parser.parse_args()
+
+print ('IMPORTANT: This script is going to use the filesystem.\n'
+        'Do not change any files in the directory while the script is running, have a coffee or '
+        'something.\n')
+continue_ = raw_input("Do you want to continue? (y/n): ")
+if continue_.lower()!='y':
+    sys.exit('Aborted by the user')
 
 folder_path = args.directory
 ignore_path = args.ignore
