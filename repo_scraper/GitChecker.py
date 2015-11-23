@@ -11,7 +11,10 @@ class GitChecker:
         #Checkout master
         print 'git checkout master'
         p = subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.communicate()
+        out, err = p.communicate()
+
+        #See comments on the function definition for details
+        git.check_stderr(err)
 
         #Get all commits in chronological order
         commits = git.list_commits()
@@ -21,7 +24,9 @@ class GitChecker:
         #Go to the first commit
         print 'git checkout %s (first commit in master)' % commits[0]
         p = subprocess.Popen(['git', 'checkout', commits[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.communicate()
+        out, err = p.communicate()
+
+        git.check_stderr(err)
 
         #Get generator to check the first commit
         fc = FolderChecker('.')

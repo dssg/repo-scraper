@@ -7,6 +7,10 @@ def list_commits():
                         stdout=subprocess.PIPE,
                         stderr=subprocess.PIPE)
     out, err = p.communicate()
+
+    #See comments on the function definition for details
+    git.check_stderr(err)
+
     #Split by breakline to get a list and reverse the order
     #so the first commit comes first
     return out.replace('"', '').split('\n')[::-1]
@@ -20,6 +24,10 @@ def diff_for_commit_to_commit(commit1_hash, commit2_hash):
                         stdout=subprocess.PIPE,
                         stderr=subprocess.PIPE)
     out, err = p.communicate()
+
+    #See comments on the function definition for details
+    git.check_stderr(err)
+
     #For some reason, this commands is returning with ""\n at the
     #beginning of the file
     diff = out.replace('""\n', '')
@@ -56,4 +64,14 @@ def parse_file_diff(diff):
         return {'filename': filename, 'content': None, 'error': 'BIG_FILE'}
     else:
         return {'filename': filename, 'content': content, 'error': None}
+
+#It seems like git likes to abuse standard error:
+#https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=447395
+#I wrote this function to check for actual errors instead of
+#what git likes to send sometimes, actually the only error
+#I'm looking for right now is when the git command is ran
+#in a folder with no repository
+def check_stderr(err):
+    if err.startswith('fatal'):
+        raise Exception(err)
 
