@@ -31,7 +31,6 @@ ALERT - MATCH ['"password": "super-secret-password"']
 ##Dependencies
 
 * glob2
-* python-magic (and magiblib)
 * nose (for running tests)
 
 ##Tested with
@@ -68,6 +67,5 @@ Adding a IGNORE file will make execution faster, since many regular expressions 
 * Check other branches apart from master
 
 #TODO
-* Make magic-python dependency optional
 * Better installation guide
 * Come up with a cool name
