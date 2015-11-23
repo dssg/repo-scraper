@@ -65,7 +65,7 @@ def parse_file_diff(diff):
     else:
         return {'filename': filename, 'content': content, 'error': None}
 
-#It seems like git likes to abuse standard error:
+#git likes to abuse standard error:
 #https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=447395
 #I wrote this function to check for actual errors instead of
 #what git likes to send sometimes, actually the only error
