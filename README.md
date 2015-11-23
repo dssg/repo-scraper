@@ -28,6 +28,21 @@ ALERT - MATCH ['"password": "super-secret-password"']
 
 ##How does it work?
 
+Briefly speaking, `check-folder` lists all files below a folder and applies regular expressions to look for passwords/IPs. Given that a blind search would never end (for example, if the repo constans a 50MB csv file), some filters are applied before the regular expressions are matched:
+
+* File size. 
+* Extension.
+* Base64.
+
+`check-repo` works in a slightly different way, one obvious way to check git history is to checkout each commit and apply `check-folder`. That approach would be really slow since the script would be checking the same files many times. Instead, `check-repo` checks out the first commit, runs `check-folder` there and then, moves up one commit at a time and uses `git diff` to get only the difference between each consecutive pair of commits.
+
+As in `check-folder`, the script applies some filters before applying regular expressions, to prevent getting stuck on big files:
+
+* Number of lines.
+* Number of characters.
+* Extension.
+* Base64.
+
 The project has some limitations see [NOTES](NOTES.md) file for information regarding the design of the project and how that limits what the library is able to detect.
 
 ##Installation
