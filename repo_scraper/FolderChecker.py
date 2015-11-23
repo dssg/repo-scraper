@@ -4,9 +4,10 @@ from repo_scraper import filesystem as fs
 from repo_scraper.FileChecker import FileChecker
 
 class FolderChecker:
-    def __init__(self, folder_path, ignore_path=None):
+    def __init__(self, folder_path, allowed_extensions, ignore_path=None):
         #List all files in directory, apply ignore file if necessary
         self.filenames = fs.list_files_in(folder_path, ignore_path)
+        self.allowed_extensions = allowed_extensions
     def file_traverser(self):
         for filename in self.filenames:
-            yield FileChecker(filename).check()
+            yield FileChecker(filename, allowed_extensions=self.allowed_extensions).check()

@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 from repo_scraper.GitChecker import GitChecker 
+from repo_scraper import constants
 import argparse
 import re
-
-DEFAULT_EXTENSIONS = ["py", "ipynb", "json", "sql", "sh", "txt", "r", "md", "log"]
-DEFAULT_EXTENSIONS_FORMAT = reduce(lambda x,y: x+', '+y, DEFAULT_EXTENSIONS)
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", action="store_true", help="prints all results, including non-matches and warnings")
 parser.add_argument("-e", "--extensions",
     help='''Comma-separated extensions, files that don't match any of these will raise a warning.
-         If empty, uses default list: %s ''' % DEFAULT_EXTENSIONS_FORMAT)
+         If empty, uses default list: %s ''' % constants.DEFAULT_EXTENSIONS_FORMAT)
 args = parser.parse_args()
 
 results_to_print = ['ALERT']
@@ -20,19 +18,19 @@ if args.verbose:
 if args.extensions:
     allowed_extensions = re.compile(',\s*\.?').split(args.extensions)
 else:
-    allowed_extensions = DEFAULT_EXTENSIONS
+    allowed_extensions = constants.DEFAULT_EXTENSIONS
 
 print 'Allowed extensions: %s' %  reduce(lambda x,y: x+', '+y, allowed_extensions)
 
 #Create an instance of git checkerparser.add_argument("-v", "--verbose", action="store_true", help="prints all results, including no matches and warnings")
-gc = GitChecker(allowed_extensions)
+gc = GitChecker(allowed_extensions=allowed_extensions)
 
 #Get the generator that will turn one resul per file modified in each
 #commit
 file_traverser =  gc.file_traverser()
 
 for result in file_traverser:
-    if result.result_type=='ALERT':
+    if result.result_type in results_to_print:
         print result
 
 #Checkout master

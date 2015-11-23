@@ -1,14 +1,15 @@
-import filetype
+from repo_scraper import filetype
 from repo_scraper import matchers
 from repo_scraper.Result import * #Need to find a better way to do this
 import os
 import re
 
 class FileChecker:
-    def __init__(self, path, max_file_size_bytes=1048576):
+    def __init__(self, path, allowed_extensions, max_file_size_bytes=1048576):
         self.path = path
         self.mimetype = filetype.mime_from_file(path)
         self.max_file_size_bytes = max_file_size_bytes
+        self.allowed_extensions = allowed_extensions
     def check(self):
         #The comments is a list to keep track of useful information
         #encountered when checking, right now, its only being used
@@ -22,16 +23,14 @@ class FileChecker:
         if f_size > self.max_file_size_bytes:
             return Result(self.path, BIG_FILE)
   
-        #Then, filter all non-plain text files
-        #also send a warning for those, if they are non-plain text
-        #and less than 1MB they are probably xlsx, pdfs, pngs, zips, ppt, pptx
-        if not self.mimetype.startswith('text/'):
-            #Add checks for certain files? (word, excel, powerpoint...)
-            return Result(self.path, NOT_PLAIN_TEXT)
+        #Check if extension is allowed
+        if filetype.get_extension(self.path) not in self.allowed_extensions:
+            return Result(self.path, FILETYPE_NOT_ALLOWED)
 
         #Now, filter all files which mimetype could not be determined
 
-        #At this point you only have plain text files, smaller than 1MB
+        #At this point you only have files with allowed extensions and
+        #smaller than max_file_size_bytes
         #open the file and then apply all rules
         with open(self.path, 'r') as f:
             content = f.read()

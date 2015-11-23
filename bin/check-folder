@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 from repo_scraper.FolderChecker import FolderChecker
+from repo_scraper import constants
 import argparse
+import re
 
 parser = argparse.ArgumentParser()
 parser.add_argument("directory", help="the directory you want to check", type=str)
 parser.add_argument("-i", "--ignore", help="optional ignore file", type=str)
 parser.add_argument("-v", "--verbose", action="store_true", help="prints all results, including non-matches and warnings")
+parser.add_argument("-e", "--extensions",
+    help='''Comma-separated extensions, files that don't match any of these will raise a warning.
+         If empty, uses default list: %s ''' % constants.DEFAULT_EXTENSIONS_FORMAT)
 args = parser.parse_args()
 
 folder_path = args.directory
@@ -14,6 +19,13 @@ ignore_path = args.ignore
 results_to_print = ['ALERT']
 if args.verbose:
     results_to_print += ['WARNING', 'NOTHING']
+
+if args.extensions:
+    allowed_extensions = re.compile(',\s*\.?').split(args.extensions)
+else:
+    allowed_extensions = constants.DEFAULT_EXTENSIONS
+
+print 'Allowed extensions: %s' %  reduce(lambda x,y: x+', '+y, allowed_extensions)
 
 print 'Checking folder %s...' % folder_path
 if ignore_path:
@@ -25,7 +37,7 @@ else:
 #this class will list files in all subdirectories,
 #then apply ignore file rules. It provides a generator
 #to check each file
-fc = FolderChecker(folder_path, ignore_path)
+fc = FolderChecker(folder_path, allowed_extensions=allowed_extensions, ignore_path=ignore_path)
 
 #Get the generator to traverse the folder structure
 file_traverser = fc.file_traverser()

@@ -30,7 +30,7 @@ class GitChecker:
         git.check_stderr(err)
 
         #Get generator to check the first commit
-        fc = FolderChecker('.')
+        fc = FolderChecker('.', allowed_extensions=self.allowed_extensions)
         folder_file_traverser = fc.file_traverser()
 
         #Define a second generator that will traverse the repository

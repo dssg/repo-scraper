@@ -12,7 +12,7 @@ class TestFileChecker(TestCase):
         pass
     def test_python_file_with_password(self):
         path = os.path.join(dummy_repo_path, 'python_file_with_password.py')
-        r = FileChecker(path).check()
+        r = FileChecker(path, allowed_extensions=['py']).check()
         self.assertEqual(r.result_type, 'ALERT')
     def test_hidden_file_with_password(self):
         pass

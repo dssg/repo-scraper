@@ -1,6 +1,8 @@
 import magic
 import mimetypes
 
+import re
+
 #This script wraps the mimetype functionality
 #if python-magic is installed uses it, since it's more reliable
 #than the built-in python function, the later uses the extension
@@ -18,6 +20,7 @@ def is_plain_text(f):
 
 def get_extension(filename):
     try:
-        return filename.split('.')[1]
+        return re.compile('.*\.(\S+)$').findall(filename)[0]
     except:
         return None
+
