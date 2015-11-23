@@ -30,18 +30,18 @@ ALERT - MATCH ['"password": "super-secret-password"']
 
 Briefly speaking, `check-folder` lists all files below a folder and applies regular expressions to look for passwords/IPs. Given that a blind search would never end (for example, if the repo constans a 50MB csv file), some filters are applied before the regular expressions are matched:
 
-* File size. 
-* Extension.
-* Base64.
+* File size - If file is bigger than 1MB, ignore it but print a warning
+* Extension - If extension is not allowed, ignore file but print a warning. (See [NOTES](NOTES.md) to know why extension is used instead of mimetype)
+* Base64. - If file contains Base64 data, remove it. Many plain-text formats (such as Jupyter notebooks embed data in Base64 format. Applying regex to such files is never going to end)
 
 `check-repo` works in a slightly different way, one obvious way to check git history is to checkout each commit and apply `check-folder`. That approach would be really slow since the script would be checking the same files many times. Instead, `check-repo` checks out the first commit, runs `check-folder` there and then, moves up one commit at a time and uses `git diff` to get only the difference between each consecutive pair of commits.
 
-As in `check-folder`, the script applies some filters before applying regular expressions, to prevent getting stuck on big files:
+As in `check-folder`, the script applies some filters before applying regular expressions to prevent getting stuck on big files, note that in this case we are not dealing with files, but with the `git diff` output, and that prevents us to check for file size directly:
 
-* Number of lines.
-* Number of characters.
-* Extension.
-* Base64.
+* Number of lines - 
+* Number of characters - 
+* Extension - If extension is not allowed, ignore file but print a warning. (See [NOTES](NOTES.md) to know why extension is used instead of mimetype)
+* Base64 - Remove Base64 code.
 
 The project has some limitations see [NOTES](NOTES.md) file for information regarding the design of the project and how that limits what the library is able to detect.
 

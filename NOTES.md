@@ -8,3 +8,4 @@
 
 ##Git and standard error
 
+##Git and binary files
