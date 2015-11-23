@@ -6,6 +6,7 @@ import re
 import sys
 
 parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--force", action="store_true", help="Force execution, prevents confirmation prompt form appearing")
 parser.add_argument("-w", "--warnings", action="store_true", help="Print warnings (and alerts)")
 parser.add_argument("-a", "--printall", action="store_true", help="Print everything (alerts, warnings and non-matches)")
 parser.add_argument("-e", "--extensions",
@@ -17,9 +18,11 @@ print ('IMPORTANT: This script is going to execute git commands.\n'
         'Do not change any files or execute git commands in this project'
         ' while the script is running, have a coffee or '
         'something.\n')
-continue_ = raw_input("Do you want to continue? (y/n): ")
-if continue_.lower()!='y':
-    sys.exit('Aborted by the user')
+
+if not args.force:
+    continue_ = raw_input("Do you want to continue? (y/n): ")
+    if continue_.lower()!='y':
+        sys.exit('Aborted by the user')
 
 results_to_print = ['ALERT']
 if args.warnings:

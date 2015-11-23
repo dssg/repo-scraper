@@ -18,9 +18,10 @@ args = parser.parse_args()
 print ('IMPORTANT: This script is going to use the filesystem.\n'
         'Do not change any files in the directory while the script is running, have a coffee or '
         'something.\n')
-continue_ = raw_input("Do you want to continue? (y/n): ")
-if continue_.lower()!='y':
-    sys.exit('Aborted by the user')
+if not args.force:
+    continue_ = raw_input("Do you want to continue? (y/n): ")
+    if continue_.lower()!='y':
+        sys.exit('Aborted by the user')
 
 folder_path = args.directory
 ignore_path = args.ignore
