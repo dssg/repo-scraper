@@ -7,7 +7,6 @@ import re
 class FileChecker:
     def __init__(self, path, allowed_extensions, max_file_size_bytes=1048576):
         self.path = path
-        self.mimetype = filetype.mime_from_file(path)
         self.max_file_size_bytes = max_file_size_bytes
         self.allowed_extensions = allowed_extensions
     def check(self):
@@ -26,8 +25,6 @@ class FileChecker:
         #Check if extension is allowed
         if filetype.get_extension(self.path) not in self.allowed_extensions:
             return Result(self.path, FILETYPE_NOT_ALLOWED)
-
-        #Now, filter all files which mimetype could not be determined
 
         #At this point you only have files with allowed extensions and
         #smaller than max_file_size_bytes
