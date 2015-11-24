@@ -1,5 +1,5 @@
 from itertools import chain
-from repo_scraper import git
+from repo_scraper.Git import Git
 from repo_scraper.DiffChecker import DiffChecker
 from repo_scraper.FolderChecker import FolderChecker
 import subprocess
@@ -9,26 +9,27 @@ class GitChecker:
     def __init__(self, allowed_extensions, git_dir):
         self.allowed_extensions = allowed_extensions
         self.git_dir = git_dir
+        self.git = Git(git_dir)
     def file_traverser(self):
         #Checkout master
         print 'git checkout master'
-        p = subprocess.Popen(['git', 'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(['git', '-C', self.git_dir,'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
 
         #See comments on the function definition for details
-        git.check_stderr(err)
+        self.git.check_stderr(err)
 
         #Get all commits in chronological order
-        commits = git.list_commits()
+        commits = self.git.list_commits()
         #Generate commit pairs (each commit with the previous one)
         commit_pairs = zip(commits[:-1], commits[1:])
 
         #Go to the first commit
         print 'git checkout %s (first commit in master)' % commits[0]
-        p = subprocess.Popen(['git', 'checkout', commits[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(['git', '-C', self.git_dir, 'checkout', commits[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = p.communicate()
 
-        git.check_stderr(err)
+        self.git.check_stderr(err)
 
         #Get generator to check the first commit
         fc = FolderChecker(folder_path=self.git_dir, allowed_extensions=self.allowed_extensions)
@@ -38,7 +39,7 @@ class GitChecker:
         def repo_generator():
             for pair in commit_pairs:
                 #print 'getting diff for %s %s' % pair
-                files_diff = git.diff_for_commit_to_commit(*pair)
+                files_diff = self.git.diff_for_commit_to_commit(*pair)
                 for f in files_diff:
                     #print 'gichecker: %s' % f['filename']+' in '+pair[1]
                    yield DiffChecker(pair, f['filename'], f['content'], f['error'], self.allowed_extensions).check()

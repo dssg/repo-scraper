@@ -13,7 +13,7 @@ parser.add_argument("-a", "--printall", action="store_true", help="Print everyth
 parser.add_argument("-e", "--extensions",
     help='''Comma-separated extensions, files that don't match any of these will raise a warning.
          If empty, uses default list: %s ''' % DEFAULT_EXTENSIONS_FORMAT)
-parser.add_argument("-p", "--path", action="store_true", help="git repository location, if this is not provided, the script will run on the working directory")
+parser.add_argument("-p", "--path", help="git repository location, if this is not provided, the script will run on the working directory")
 args = parser.parse_args()
 
 print ('IMPORTANT: This script is going to execute git commands.\n'
