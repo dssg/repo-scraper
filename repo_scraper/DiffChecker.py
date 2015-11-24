@@ -44,7 +44,7 @@ class DiffChecker:
             comments.append('BASE64_REMOVED')
         
         #Apply matchers: password and ips
-        match, matches = m.multi_matcher(content, m.password_matcher, m.ip_matcher)
+        match, matches = m.multi_matcher(self.content, m.password_matcher, m.ip_matcher)
 
         if match:
             return Result(identifier, MATCH, matches=matches, comments=comments)
