@@ -13,11 +13,7 @@ class GitChecker:
     def file_traverser(self):
         #Checkout master
         print 'git checkout master'
-        p = subprocess.Popen(['git', '-C', self.git_dir,'checkout', 'master'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = p.communicate()
-
-        #See comments on the function definition for details
-        self.git.check_stderr(err)
+        self.git.checkout('master')
 
         #Get all commits in chronological order
         commits = self.git.list_commits()
@@ -26,10 +22,7 @@ class GitChecker:
 
         #Go to the first commit
         print 'git checkout %s (first commit in master)' % commits[0]
-        p = subprocess.Popen(['git', '-C', self.git_dir, 'checkout', commits[0]], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = p.communicate()
-
-        self.git.check_stderr(err)
+        self.git.checkout(commits[0])
 
         #Get generator to check the first commit
         fc = FolderChecker(folder_path=self.git_dir, allowed_extensions=self.allowed_extensions)

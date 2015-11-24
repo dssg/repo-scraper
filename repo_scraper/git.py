@@ -69,6 +69,13 @@ class Git:
             return {'filename': filename, 'content': None, 'error': BIG_FILE}
         else:
             return {'filename': filename, 'content': content, 'error': None}
+
+    def checkout(self, commit_id):
+        p = subprocess.Popen(['git', '-C', self.git_dir,'checkout', commit_id], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        #See comments on the function definition for details
+        self.check_stderr(err)
+
     #git likes to abuse standard error:
     #https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=447395
     #I wrote this function to check for actual errors instead of
