@@ -37,8 +37,6 @@ class FileChecker:
         if has_base64:
             comments.append('BASE64_REMOVED')
 
-        #Maybe send warnings for data files (even if they are less than 1MB)?
-
         #First matcher: passwords
         password_matcher, matches = matchers.password_matcher(content)
 

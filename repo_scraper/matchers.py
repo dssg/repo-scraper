@@ -1,5 +1,20 @@
 import re
 
+def multi_matcher(s, *matchers):
+    '''Receives matchers as parameters and applies all of them'''
+    results = [m(s) for m in matchers]
+    #Get the flag that indicates wether there was a match for each matcher
+    has_match = [r[0] for r in results]
+    #Check if there was at least one match
+    at_least_one = reduce(lambda x,y: x or y, has_match)
+    #Get list of matches for each matcher, delete Nones
+    list_of_lists = [r[1] for r in results if r[1] is not None]
+    #Flatten list of matches, ignore None
+    matches = [match for single_list in list_of_lists for match in single_list]
+    #If the list is empty, return None
+    matches = None if len(matches)==0 else matches
+    return at_least_one, matches
+
 def base64_matcher(s, remove=False):
     regex = '(?:"|\')[A-Za-z0-9\\+\\\=\\/]{50,}(?:"|\')'
     base64images = re.compile(regex).findall(s)
@@ -42,12 +57,14 @@ def password_matcher(s):
     return has_password, matches
 
 #Checks if a string has ips
-# p = re.compile('(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])')
-# p = re.compile('\d+')
-# p.findall('this does not have ips')
-# p.findall('Oh, look! an IP 192.168.1.22')
-def ip_matcher(str):
-    return False, None
+#Matching IPs with regex is a thing:
+#http://stackoverflow.com/questions/10086572/ip-address-validation-in-python-using-regex
+def ip_matcher(s):
+    ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", s)
+    if len(ips):
+        return True, ips
+    else:
+        return False, None
 
 #maybe also check aws related urls
 
