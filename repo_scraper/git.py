@@ -1,4 +1,5 @@
 from repo_scraper.constants.result import *
+from repo_scraper.constants.git_diff import *
 import subprocess
 import re
 
@@ -54,14 +55,14 @@ def parse_file_diff(diff):
     #If there are many lines in the diff file, the filter for addisions
     #is going to break, check how many lines there are
     #print 'lines for content %s' % len(lines[1:])
-    if len(lines[1:]) > 10000:
+    if len(lines[1:]) > MAX_DIFF_LINES:
         return {'filename': filename, 'content': None, 'error': BIG_FILE}
 
     content = filter(lambda x: x.startswith('+'), lines[1:])
     content = reduce(lambda x,y:x+'\n'+y, content) if len(content) else ''
     #Threshold for the number of characters
     #print 'len is: %d' % len(content)
-    if len(content) > 1048576:
+    if len(content) > MAX_DIFF_ADDITIONS_CHARACTERS:
         return {'filename': filename, 'content': None, 'error': BIG_FILE}
     else:
         return {'filename': filename, 'content': content, 'error': None}
