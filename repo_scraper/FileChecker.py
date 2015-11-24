@@ -1,5 +1,5 @@
 from repo_scraper import filetype
-from repo_scraper import matchers
+from repo_scraper import matchers as m
 from repo_scraper.Result import * #Need to find a better way to do this
 import os
 import re
@@ -33,14 +33,14 @@ class FileChecker:
             content = f.read()
 
         #Last check: search for potential base64 strings and remove them, send a warning
-        has_base64, content = matchers.base64_matcher(content, remove=True)
+        has_base64, content = m.base64_matcher(content, remove=True)
         if has_base64:
             comments.append('BASE64_REMOVED')
 
-        #First matcher: passwords
-        password_matcher, matches = matchers.password_matcher(content)
+        #Apply matchers: password and ips
+        match, matches = m.multi_matcher(content, m.password_matcher, m.ip_matcher)
 
-        if password_matcher:
+        if match:
             return Result(self.path, MATCH, matches=matches, comments=comments)
         else:
             return Result(self.path, NOT_MATCH, comments=comments)

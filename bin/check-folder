@@ -7,6 +7,7 @@ import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("directory", help="the directory you want to check", type=str)
+parser.add_argument("-f", "--force", action="store_true", help="Force execution, prevents confirmation prompt form appearing")
 parser.add_argument("-i", "--ignore", help="optional ignore file", type=str)
 parser.add_argument("-w", "--warnings", action="store_true", help="Print warnings (and alerts)")
 parser.add_argument("-a", "--printall", action="store_true", help="Print everything (alerts, warnings and non-matches)")
