@@ -13,6 +13,7 @@ parser.add_argument("-a", "--printall", action="store_true", help="Print everyth
 parser.add_argument("-e", "--extensions",
     help='''Comma-separated extensions, files that don't match any of these will raise a warning.
          If empty, uses default list: %s ''' % DEFAULT_EXTENSIONS_FORMAT)
+parser.add_argument("-p", "--path", action="store_true", help="git repository location, if this is not provided, the script will run on the working directory")
 args = parser.parse_args()
 
 print ('IMPORTANT: This script is going to execute git commands.\n'
@@ -36,10 +37,15 @@ if args.extensions:
 else:
     allowed_extensions = DEFAULT_EXTENSIONS
 
+
+#Default path is working directory, change if user
+#specified a different one
+path = '.' if args.path is None else args.path
+
 print 'Allowed extensions: %s' %  reduce(lambda x,y: x+', '+y, allowed_extensions)
 
 #Create an instance of git checkerparser.add_argument("-v", "--verbose", action="store_true", help="prints all results, including no matches and warnings")
-gc = GitChecker(allowed_extensions=allowed_extensions)
+gc = GitChecker(allowed_extensions=allowed_extensions, git_dir=path)
 
 #Get the generator that will turn one resul per file modified in each
 #commit

@@ -43,7 +43,7 @@ def parse_diff(diff):
 
 #http://stackoverflow.com/questions/2529441/how-to-read-the-output-from-git-diff
 def parse_file_diff(diff):
-    '''Parse a diff oputput'''
+    '''Parse a diff output'''
     lines = diff.split('\n')
     #File line is the first line here, with the following format:
     #a/file.txt b/file2.txt where file and file2 are different

@@ -6,8 +6,9 @@ import subprocess
 
 
 class GitChecker:
-    def __init__(self, allowed_extensions):
+    def __init__(self, allowed_extensions, git_dir):
         self.allowed_extensions = allowed_extensions
+        self.git_dir = git_dir
     def file_traverser(self):
         #Checkout master
         print 'git checkout master'
@@ -30,7 +31,7 @@ class GitChecker:
         git.check_stderr(err)
 
         #Get generator to check the first commit
-        fc = FolderChecker('.', allowed_extensions=self.allowed_extensions)
+        fc = FolderChecker(folder_path=self.git_dir, allowed_extensions=self.allowed_extensions)
         folder_file_traverser = fc.file_traverser()
 
         #Define a second generator that will traverse the repository
