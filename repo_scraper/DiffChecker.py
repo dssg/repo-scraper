@@ -1,4 +1,4 @@
-from repo_scraper import matchers
+from repo_scraper import matchers as m
 from repo_scraper.Result import * #need to find a better way to do this
 from repo_scraper import filetype
 
@@ -39,14 +39,14 @@ class DiffChecker:
         
         #Start applying rules...
         #First check if additions contain base64, if there is remove it
-        has_base64, self.content = matchers.base64_matcher(self.content, remove=True)
+        has_base64, self.content = m.base64_matcher(self.content, remove=True)
         if has_base64:
             comments.append('BASE64_REMOVED')
         
-        #Now check for passwords
-        has_pwd, matches = matchers.password_matcher(self.content)
+        #Apply matchers: password and ips
+        match, matches = m.multi_matcher(content, m.password_matcher, m.ip_matcher)
 
-        if has_pwd:
+        if match:
             return Result(identifier, MATCH, matches=matches, comments=comments)
         else:
             return Result(identifier, NOT_MATCH, comments=comments)
