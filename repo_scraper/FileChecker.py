@@ -1,6 +1,6 @@
 from repo_scraper import filetype
 from repo_scraper import matchers as m
-from repo_scraper.Result import * #Need to find a better way to do this
+from repo_scraper.Result import *
 import os
 import re
 

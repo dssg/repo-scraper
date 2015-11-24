@@ -1,4 +1,4 @@
-from repo_scraper.constants import *
+from repo_scraper.constants.result import *
 import subprocess
 import re
 

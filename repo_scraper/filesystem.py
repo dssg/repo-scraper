@@ -1,5 +1,4 @@
 #This file contains utility functions for working witht the filesytem
-
 import os
 import mimetypes as mime
 import glob2 as glob
