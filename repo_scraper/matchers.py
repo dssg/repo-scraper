@@ -61,6 +61,9 @@ def password_matcher(s):
 #http://stackoverflow.com/questions/10086572/ip-address-validation-in-python-using-regex
 def ip_matcher(s):
     ips = re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", s)
+    #Remove obvios non-dangerous matches
+    allowed_ips = ['127.0.0.1', '0.0.0.0']
+    ips = [ip for ip in ips if ip not in allowed_ips]
     if len(ips):
         return True, ips
     else:
