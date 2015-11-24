@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from repo_scraper.constants import *
+from repo_scraper.constants.extensions import *
+from repo_scraper.constants.result import *
 from repo_scraper.GitChecker import GitChecker 
 import argparse
 import re
