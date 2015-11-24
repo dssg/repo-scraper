@@ -66,8 +66,6 @@ def ip_matcher(s):
     else:
         return False, None
 
-#maybe also check aws related urls
-
 def regex_matcher(regex_list, s):
     '''Get a list of regex and return all matches'''
     #Find matches for each regex
@@ -76,3 +74,5 @@ def regex_matcher(regex_list, s):
     results_list = reduce(lambda x,y: x+y, results_list)
     #Return a set to remove duplicates?
     return results_list
+
+#maybe also check aws related urls

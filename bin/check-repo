@@ -1,6 +1,6 @@
 #!/usr/bin/env python
+from repo_scraper.constants import *
 from repo_scraper.GitChecker import GitChecker 
-from repo_scraper import constants
 import argparse
 import re
 import sys
@@ -11,7 +11,7 @@ parser.add_argument("-w", "--warnings", action="store_true", help="Print warning
 parser.add_argument("-a", "--printall", action="store_true", help="Print everything (alerts, warnings and non-matches)")
 parser.add_argument("-e", "--extensions",
     help='''Comma-separated extensions, files that don't match any of these will raise a warning.
-         If empty, uses default list: %s ''' % constants.DEFAULT_EXTENSIONS_FORMAT)
+         If empty, uses default list: %s ''' % DEFAULT_EXTENSIONS_FORMAT)
 args = parser.parse_args()
 
 print ('IMPORTANT: This script is going to execute git commands.\n'
@@ -24,16 +24,16 @@ if not args.force:
     if continue_.lower()!='y':
         sys.exit('Aborted by the user')
 
-results_to_print = ['ALERT']
+results_to_print = [ALERT]
 if args.warnings:
-    results_to_print += ['WARNING']
+    results_to_print += [WARNING]
 elif args.printall:
-    results_to_print += ['WARNING', 'NOTHING']
+    results_to_print += [WARNING, NOTHING]
 
 if args.extensions:
     allowed_extensions = re.compile(',\s*\.?').split(args.extensions.lower())
 else:
-    allowed_extensions = constants.DEFAULT_EXTENSIONS
+    allowed_extensions = DEFAULT_EXTENSIONS
 
 print 'Allowed extensions: %s' %  reduce(lambda x,y: x+', '+y, allowed_extensions)
 

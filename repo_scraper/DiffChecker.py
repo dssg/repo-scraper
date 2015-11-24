@@ -11,7 +11,7 @@ class DiffChecker:
         self.allowed_extensions = allowed_extensions
     def check(self):
         #Build the identifier using the filename and commit hashes
-        identifier = '%s from commit %s to commit %s' % (self.filename, self.commit_hashes[0], self.commit_hashes[1])
+        identifier = '%s (%s)' % (self.filename, self.commit_hashes[1])
 
         #The comments is a list to keep track of useful information
         #encountered when checking, right now, its only being used
