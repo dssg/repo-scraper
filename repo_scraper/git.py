@@ -1,3 +1,4 @@
+from repo_scraper.constants import *
 import subprocess
 import re
 
@@ -54,14 +55,14 @@ def parse_file_diff(diff):
     #is going to break, check how many lines there are
     #print 'lines for content %s' % len(lines[1:])
     if len(lines[1:]) > 10000:
-        return {'filename': filename, 'content': None, 'error': 'BIG_FILE'}
+        return {'filename': filename, 'content': None, 'error': BIG_FILE}
 
     content = filter(lambda x: x.startswith('+'), lines[1:])
     content = reduce(lambda x,y:x+'\n'+y, content) if len(content) else ''
     #Threshold for the number of characters
     #print 'len is: %d' % len(content)
     if len(content) > 1048576:
-        return {'filename': filename, 'content': None, 'error': 'BIG_FILE'}
+        return {'filename': filename, 'content': None, 'error': BIG_FILE}
     else:
         return {'filename': filename, 'content': content, 'error': None}
 
