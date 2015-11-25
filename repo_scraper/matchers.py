@@ -69,6 +69,18 @@ def ip_matcher(s):
     else:
         return False, None
 
+def create_domain_matcher(domain):
+    '''Returns a function that serves as a matcher for a given domain'''
+    def domain_matcher(s):
+        regex = '\S+\.'+domain.replace('.', '\.')
+        matches = re.findall(regex, s)
+        if len(matches):
+            return True, matches
+        else:
+            return False, None
+    return domain_matcher
+
+
 def regex_matcher(regex_list, s):
     '''Get a list of regex and return all matches'''
     #Find matches for each regex

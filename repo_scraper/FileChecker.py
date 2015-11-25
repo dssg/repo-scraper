@@ -37,8 +37,10 @@ class FileChecker:
         if has_base64:
             comments.append('BASE64_REMOVED')
 
-        #Apply matchers: password and ips
-        match, matches = m.multi_matcher(content, m.password_matcher, m.ip_matcher)
+        #Create matcher for amazonaws.com
+        amazonaws_matcher = m.create_domain_matcher('amazonaws.com')
+        #Apply matchers: password, ips and aws
+        match, matches = m.multi_matcher(content, m.password_matcher, m.ip_matcher, amazonaws_matcher)
 
         if match:
             return Result(self.path, MATCH, matches=matches, comments=comments)
