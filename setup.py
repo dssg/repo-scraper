@@ -3,8 +3,8 @@ from setuptools import setup
 setup(
       name='repo-scraper',
       version='0.1',
-      description='Safety evaluation for repositories',
-      url='http://github.com/edublancas',
+      description='Search for potential passwords/data leaks in a folder or git repo',
+      url='https://github.com/dssg/repo-scraper',
       author='Eduardo Blancas Reyes',
       author_email='edu.blancas@gmail.com',
       license='MIT',
