@@ -42,7 +42,6 @@ else:
 
 print 'Allowed extensions: %s' %  reduce(lambda x,y: x+', '+y, allowed_extensions)
 
-print 'Checking folder %s...' % folder_path
 if ignore_path:
     print 'Using ignore file %s\n' % ignore_path
 else:
