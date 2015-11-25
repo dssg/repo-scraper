@@ -60,9 +60,11 @@ class Git:
         #print 'lines for content %s' % len(lines[1:])
         if len(lines[1:]) > MAX_DIFF_LINES:
             return {'filename': filename, 'content': None, 'error': BIG_FILE}
-    
+
+        #Filter only the additions (lines that start with +)
         content = filter(lambda x: x.startswith('+'), lines[1:])
-        content = reduce(lambda x,y:x+'\n'+y, content) if len(content) else ''
+        #Join the lines again, but start from the second character to delete the + sign
+        content = reduce(lambda x,y:x[1:]+'\n'+y[1:], content) if len(content) else ''
         #Threshold for the number of characters
         #print 'len is: %d' % len(content)
         if len(content) > MAX_DIFF_ADDITIONS_CHARACTERS:
