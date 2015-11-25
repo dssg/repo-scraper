@@ -3,7 +3,7 @@ import os
 import mimetypes as mime
 import glob2 as glob
 
-def list_files_in(directory, ignore_file=None, ignore_git_folder=True):
+def list_files_in(directory, ignore_git_folder, ignore_file):
     '''Receives a path to a directory and returns
     paths to all files along with each mimetype'''
     file_list = []

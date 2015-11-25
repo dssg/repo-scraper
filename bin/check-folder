@@ -15,6 +15,7 @@ parser.add_argument("-e", "--extensions",
     help='''Comma-separated extensions, files that don't match any of these will raise a warning.
          If empty, uses default list: %s ''' % DEFAULT_EXTENSIONS_FORMAT)
 parser.add_argument("-p", "--path", help="directory location, if this is not provided, the script will run on the working directory")
+parser.add_argument("-g", "--includegit", action="store_true", help="Includes .git/ folder in the search scope, disabled by default")
 args = parser.parse_args()
 
 print ('IMPORTANT: This script is going to use the filesystem.\n'
@@ -51,8 +52,10 @@ else:
 #this class will list files in all subdirectories,
 #then apply ignore file rules. It provides a generator
 #to check each file
-fc = FolderChecker(folder_path, allowed_extensions=allowed_extensions, ignore_path=ignore_path)
-
+ignore_git = not args.includegit
+fc = FolderChecker(folder_path, allowed_extensions=allowed_extensions,
+                                ignore_git_folder=ignore_git,
+                                ignore_path=ignore_path)
 #Get the generator to traverse the folder structure
 file_traverser = fc.file_traverser()
 

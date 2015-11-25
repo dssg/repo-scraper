@@ -25,7 +25,9 @@ class GitChecker:
         self.git.checkout(commits[0])
 
         #Get generator to check the first commit
-        fc = FolderChecker(folder_path=self.git_dir, allowed_extensions=self.allowed_extensions)
+        fc = FolderChecker(folder_path=self.git_dir,
+                           allowed_extensions=self.allowed_extensions,
+                           ignore_git_folder=True)
         folder_file_traverser = fc.file_traverser()
 
         #Define a second generator that will traverse the repository
