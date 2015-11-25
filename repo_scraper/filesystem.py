@@ -3,7 +3,7 @@ import os
 import mimetypes as mime
 import glob2 as glob
 
-def list_files_in(directory, ignore_file=None):
+def list_files_in(directory, ignore_file=None, ignore_git_folder=True):
     '''Receives a path to a directory and returns
     paths to all files along with each mimetype'''
     file_list = []
@@ -12,12 +12,21 @@ def list_files_in(directory, ignore_file=None):
             file_list.append(os.path.join(root, file))
 
     file_list = set(file_list)
+
+    glob_rules = []
+
+    if ignore_git_folder:
+            glob_rules.append('.git/**')
+
     #Check if ignore file was provided
     if ignore_file is not None:
-        glob_rules = parse_ignore_file(ignore_file)
+        glob_rules += parse_ignore_file(ignore_file)
+
+    if len(glob_rules):
         glob_matches = match_glob_rules_in_directory(glob_rules, directory)
         #Remove files in file_list that matched any glob rule
         file_list = file_list - glob_matches
+
     return file_list
 
 def match_glob_rules_in_directory(glob_rules, directory):

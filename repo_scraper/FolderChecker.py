@@ -6,7 +6,7 @@ from repo_scraper.FileChecker import FileChecker
 class FolderChecker:
     def __init__(self, folder_path, allowed_extensions, ignore_path=None):
         #List all files in directory, apply ignore file if necessary
-        self.filenames = fs.list_files_in(folder_path, ignore_path)
+        self.filenames = fs.list_files_in(folder_path, ignore_file=ignore_path, ignore_git_folder=True)
         self.allowed_extensions = allowed_extensions
     def file_traverser(self):
         for filename in self.filenames:
