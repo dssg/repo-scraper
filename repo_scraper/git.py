@@ -32,7 +32,7 @@ class Git:
     
         #See comments on the function definition for details
         self.check_stderr(err)
-        return self.parse_diff(diff)
+        return self.parse_diff(out)
 
     def parse_diff(self, diff):
         '''Parse a diff output'''
