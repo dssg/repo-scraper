@@ -5,6 +5,6 @@ NOTHING = '\033[92mCheck passed\033[0m'
 
 BIG_FILE = 'Big file found'
 NOT_PLAIN_TEXT = 'File is not plain text'
-MATCH = 'Match found'
+MATCH = 'Match'
 NOT_MATCH = 'Nothing found'
 FILETYPE_NOT_ALLOWED = 'Extension not allowed'

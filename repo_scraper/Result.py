@@ -16,4 +16,8 @@ class Result:
         self.result_type = dic[reason]
         self.comments = comments
     def __str__(self):
-        return '%s - %s in %s\n%s\n' % (self.result_type, self.reason, self.identifier, self.matches)
+        #Create list of string with 'index. content' format for eacch match
+        matches_print = [str(idx+1)+'. '+content for idx,content in enumerate(self.matches)]
+        #Join list
+        matches_print = reduce(lambda x,y: x+'\n'+y, matches_print)
+        return '%s - %s in %s\n%s\n' % (self.result_type, self.reason, self.identifier, matches_print)
