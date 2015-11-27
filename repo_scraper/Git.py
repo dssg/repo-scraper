@@ -16,7 +16,6 @@ class Git:
     
         #See comments on the function definition for details
         self.check_stderr(err)
-    
         #Split by breakline to get a list and reverse the order
         #so the first commit comes first
         return out.replace('"', '').split('\n')[::-1]
@@ -32,6 +31,7 @@ class Git:
     
         #See comments on the function definition for details
         self.check_stderr(err)
+        
         return self.parse_diff(out)
 
     def parse_diff(self, diff):
