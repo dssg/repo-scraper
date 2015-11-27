@@ -63,8 +63,10 @@ class Git:
 
         #Filter only the additions (lines that start with +)
         content = filter(lambda x: x.startswith('+'), lines[1:])
-        #Join the lines again, but start from the second character to delete the + sign
-        content = reduce(lambda x,y:x[1:]+'\n'+y[1:], content) if len(content) else ''
+        #Remove the leading + sign on each line
+        content = [line.strip('+') for line in content]
+        #Join the lines again
+        content = reduce(lambda x,y:x+'\n'+y, content) if len(content) else ''
         #Threshold for the number of characters
         #print 'len is: %d' % len(content)
         if len(content) > MAX_DIFF_ADDITIONS_CHARACTERS:
