@@ -32,10 +32,6 @@ class Git:
     
         #See comments on the function definition for details
         self.check_stderr(err)
-    
-        #For some reason, this commands is returning with ""\n at the
-        #beginning of the file
-        diff = out.replace('""\n', '')
         return self.parse_diff(diff)
 
     def parse_diff(self, diff):

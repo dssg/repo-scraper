@@ -53,7 +53,7 @@ def password_matcher(s):
     regex_list = [pwd, pass_, urls]
     matches = regex_matcher(regex_list, s)
     has_password = len(matches) > 0
-    matches = None if has_password is False else list(set(matches))
+    matches = None if has_password is False else matches
     return has_password, matches
 
 #Checks if a string has ips
@@ -82,12 +82,19 @@ def create_domain_matcher(domain):
 
 
 def regex_matcher(regex_list, s):
-    '''Get a list of regex and return all matches'''
-    #Find matches for each regex
-    results_list = [regex.findall(s) for regex in regex_list]
+    '''Get a list of regex and return all matches, removes duplicates
+    in case more than onw regex matches the same pattern (pattern location
+    is taken into account to determine wheter two matches are the same).'''
+    #Find matchees and position for each regex
+    results = [match_with_position(regex, s) for regex in regex_list]
     #Flatten list
-    results_list = reduce(lambda x,y: x+y, results_list)
-    #Return a set to remove duplicates?
-    return results_list
+    results = reduce(lambda x,y: x+y, results)
+    #Convert to set to remove duplicates
+    results = set(results)
+    #Extract matches only (wuthout position)
+    results = [res[1] for res in results]
+    return results
 
-#maybe also check aws related urls
+def match_with_position(regex, s):
+    '''Returns a list of tuples (pos, match) for each match.'''
+    return [(m.start(), m.group()) for m in regex.finditer(s)]
