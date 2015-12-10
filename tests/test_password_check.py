@@ -56,7 +56,7 @@ class HardcodedPasswordString(TestCase):
         str_to_check = 'PASSWORD_MYSQL=\'iYiLKi7879\'  \n  \n  password ="123456"\n var=5'
         password_matcher, matches = matchers.password_matcher(str_to_check)
         self.assertTrue(password_matcher)
-        self.assertEqual(matches, ['PASSWORD_MYSQL=\'iYiLKi7879\'', 'password ="123456"'])
+        self.assertEqual(matches, ['password ="123456"', 'PASSWORD_MYSQL=\'iYiLKi7879\''])
 
     def test_ignores_password_from_another_variable(self):
         str_to_check = 'password=variable'
@@ -134,7 +134,7 @@ class HardcodedPasswordsInJSON(TestCase):
                         }'''
         password_matcher, matches = matchers.password_matcher(str_to_check)
         self.assertTrue(password_matcher)
-        self.assertEqual(matches, ['"pass": "dont-hack-me-please"', '\'pwd\'  :    \'qwerty\''])
+        self.assertEqual(matches, ['\'pwd\'  :    \'qwerty\'', '"pass": "dont-hack-me-please"'])
 
     def test_detects_hardcoded_value_json_blanks(self):
         str_to_check = '''{
@@ -161,7 +161,7 @@ class HardcodedPasswordsInJSON(TestCase):
         self.assertEqual(matches, ['"db-schema://user:strong-pwd@localhost:5432/mydb"'])
 
 class HardcodedPasswordsInYAML(TestCase):
-    def test_detects_hardcoded_value_json(self):
+    def test_detects_hardcoded_double_quotes(self):
         str_to_check = '''
                             database: 
                               drivername: "dbdriver"
@@ -174,6 +174,31 @@ class HardcodedPasswordsInYAML(TestCase):
         password_matcher, matches = matchers.password_matcher(str_to_check)
         self.assertTrue(password_matcher)
         self.assertEqual(matches, ['password:   "password"'])
+    def test_detects_hardcoded_with_a_double_quote(self):
+        str_to_check = '''
+                            db:
+                              host: 'host'
+                              user: 'user'
+                              password: '"klu89oinlk'
+                              database: 'a_db'
+
+                       '''
+        password_matcher, matches = matchers.password_matcher(str_to_check)
+        self.assertTrue(password_matcher)
+        self.assertEqual(matches, ["password: '\"klu89oinlk'"])
+    def test_detects_hardcoded_with_a_single_quote(self):
+        str_to_check = '''
+                        database: 
+                              drivername: "dbdriver"
+                              host:       "dbhost"
+                              port:       "port"
+                              username:   "username"
+                              password:   "thispwdhasthis'"
+                              database:   "database"
+                       '''
+        password_matcher, matches = matchers.password_matcher(str_to_check)
+        self.assertTrue(password_matcher)
+        self.assertEqual(matches, ['password:   "thispwdhasthis\'"'])
 
 class HardcodedPasswordsInCSV(TestCase):
     def test_detects_hardcoded_value_csv(self):
